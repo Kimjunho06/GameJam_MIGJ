@@ -11,7 +11,7 @@ public enum SoundEnum
     END
 }
 
-public class AudioManager : MonoSingleton<AudioManager> 
+public class AudioManager : MonoSingleton<AudioManager>
 {
     public float soundFadeOnTime;
 
