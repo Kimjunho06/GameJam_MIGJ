@@ -11,21 +11,8 @@ public enum SoundEnum
     END
 }
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoSingleton<AudioManager> 
 {
-    private static AudioManager _instance = null;
-    public static AudioManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<AudioManager>();
-            }
-            return _instance;
-        }
-    }
-
     public float soundFadeOnTime;
 
     private AudioSource[] _audioSources = new AudioSource[(int)SoundEnum.END];
