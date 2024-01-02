@@ -70,6 +70,9 @@ public class PullPushObject : MonoBehaviour
                 dir = Vector3.back;
         }
 
+        interactiveObj.mess = 0;
+        interactiedObj.mess = calcMess;
+
         rb.AddForce(dir * calcMess, ForceMode.Impulse);
     }
 }
