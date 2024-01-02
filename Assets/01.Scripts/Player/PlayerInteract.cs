@@ -5,18 +5,35 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _radius = 5f;
+    [SerializeField] private Vector3 _findObjOffset;
     Object interactableObj = null;
     Object playerObj;
+    PlayerMovement playerMovement;
 
     private void Awake()
     {
         playerObj = GetComponent<Object>();
+        playerMovement = playerObj.gameObject.GetComponent<PlayerMovement>();
     }
 
     private void Update()
     {
         FindInteractableObject();
+        
+        if (interactableObj == null)
+        {
+            Debug.Log("interactable Object is null");
+            return;
+        }
 
+        PullObject();
+        PushObject();
+
+        AirHangObject();
+    }
+
+    private void PullObject()
+    {
         if (Input.GetKey(KeyCode.Q))
         {
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
@@ -30,7 +47,10 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Q))
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+    }
 
+    private void PushObject()
+    {
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
@@ -44,11 +64,69 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+    private void AirHangObject()
+    {
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            if (!interactableObj.TryGetComponent<HangableObject>(out HangableObject obj))
+                return;
+
+            playerMovement.isHang = true;
+
+            playerMovement._playerAnimatior.AirHangAnimation(playerMovement.isHang);
+            if (playerObj.IsGround())
+            {
+                playerMovement.isHang = false;
+                playerMovement._playerAnimatior.AirHangAnimation(playerMovement.isHang);
+                return;
+            }
+            playerObj.transform.position = interactableObj.transform.position;
+            DrainMess();
+        }
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            playerMovement.isHang = false;
+            playerMovement._playerAnimatior.AirHangAnimation(playerMovement.isHang);
+        }
+
+    }
+
+    public void DrainMess()
+    {
+        float minusMess = 0;
+        if (!playerMovement.isHang)
+            return;
+
+        if (interactableObj.mess <= 0)
+            return;
+
+        if (!interactableObj.gameObject.TryGetComponent(out HangableObject obj))
+        {
+            Debug.LogError("HangableObj is null");
+            return;
+        }
+        else
+            minusMess = obj._minusMess;
+
+        if (interactableObj.mess - minusMess < 0)
+        {
+            interactableObj.mess -= interactableObj.mess;
+            playerObj.mess += interactableObj.mess;
+
+            return;
+        }
+
+        interactableObj.mess -= minusMess;
+        playerObj.mess += minusMess;
+    }
+
     private void FindInteractableObject()
     {
         float maxDist = _radius + 1;
-
-        Collider[] findObj = Physics.OverlapSphere(transform.position, _radius);
+        bool isFindObj = false;
+        
+        Collider[] findObj = Physics.OverlapSphere(transform.position + _findObjOffset, _radius);
 
         foreach (var obj in findObj)
         {
@@ -61,18 +139,22 @@ public class PlayerInteract : MonoBehaviour
                 {
                     maxDist = dist;
                     interactableObj = findInteractObj;
+                    isFindObj = true;
                 }
             }
         }
 
         if (interactableObj == null)
             return;
+
+        if (!isFindObj)
+            interactableObj = null;
     }
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, _radius);
+        Gizmos.DrawWireSphere(transform.position + _findObjOffset, _radius);
     }
 #endif
 }
