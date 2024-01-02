@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class UIManager : MonoBehaviour
 
     private bool isPanelOpened = false;
     private bool isFaded = false;
-    private bool isCoroutined = false;
 
     private void Update()
     {
@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
             panel.SetActive(true);
             isPanelOpened = true;
         }
+
         else if (isPanelOpened == true)
         {
             panel.SetActive(false);
@@ -44,11 +45,18 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStart()
     {
-        StartCoroutine(FadeCoroutine(0.01f));
-        if(isCoroutined == false)
+        if (isFaded == false)
         {
-            SceneManager.LoadScene("SampleScene");
+            isFaded = true;
+            fadeImage.DOFade(1, fadeTime).OnComplete(()=> isFaded = false);
         }
+        Invoke("ChangeScene", 1);
+    }
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene("SampleScene");
+
     }
 
     public void OnClickExit()
@@ -58,7 +66,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickOption()
     {
-        StartCoroutine(FadeCoroutine(0.01f));
+        if (isFaded == false)
+        {
+            isFaded = true;
+            fadeImage.DOFade(1, fadeTime);
+            isFaded = false;
+        }
         SceneManager.LoadScene("OptionScene");
     }
 
@@ -87,25 +100,7 @@ public class UIManager : MonoBehaviour
     public void OnClickNewGame()
     {
         newGamePanel.SetActive(true);
-    }
-
-    IEnumerator FadeCoroutine(float fadeInOut)
-    {
-        isCoroutined = true;
-        float fadeCnt = 0;
-        if(isFaded == false)
-        {
-            isFaded = true;
-            fadeImage.DOFade(1, fadeTime);
-            yield return null;
-            //while (fadeCnt < 1.0f)
-            //{
-            //    fadeCnt += fadeInOut;
-            //    yield return new WaitForSeconds(0.01f);
-            //    fadeImage.color = new Color(0, 0, 0, fadeCnt);
-            //}
-            isFaded = false;
-        }
-        isCoroutined = false;
+        var btn = newGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
+        btn.Select();
     }
 }

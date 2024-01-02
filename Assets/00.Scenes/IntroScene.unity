@@ -1555,7 +1555,7 @@ GameObject:
   - component: {fileID: 1569195946}
   - component: {fileID: 1569195945}
   m_Layer: 5
-  m_Name: Image
+  m_Name: FadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1799,8 +1799,8 @@ MonoBehaviour:
   panel: {fileID: 957168888}
   newGamePanel: {fileID: 0}
   exitGamePanel: {fileID: 0}
-  image: {fileID: 1569195945}
-  fadeTime: 0.1
+  fadeImage: {fileID: 1569195945}
+  fadeTime: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

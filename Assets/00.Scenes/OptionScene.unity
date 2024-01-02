@@ -4335,7 +4335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5001,7 +5001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5114,6 +5114,8 @@ MonoBehaviour:
   panel: {fileID: 589613784}
   newGamePanel: {fileID: 808065613}
   exitGamePanel: {fileID: 837894889}
+  fadeImage: {fileID: 0}
+  fadeTime: 0
 --- !u!4 &1967650112
 Transform:
   m_ObjectHideFlags: 0
