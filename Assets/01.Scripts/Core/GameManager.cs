@@ -8,6 +8,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private PoolingListSO _poolingList;
     [SerializeField] private Transform _poolingTrm;
 
+    public GameObject _pushDirectionArrow;
+
     public Camera _mainCam;
 
     private void Awake()

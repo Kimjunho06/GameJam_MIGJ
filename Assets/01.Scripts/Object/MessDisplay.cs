@@ -47,6 +47,7 @@ public class MessDisplay : MonoBehaviour
         if (TryGetComponent<Object>(out Object obj))
             messTxt.text = $"{obj.mess.ToString("F1")}";
 
-        messTxt.rectTransform.rotation = Quaternion.Euler(0, GameManager.Instance._mainCam.transform.rotation.y, 0);
+        messTxt.transform.LookAt(GameManager.Instance._mainCam.transform.position);
+        //messTxt.rectTransform.localRotation = Quaternion.Euler(0, GameManager.Instance._mainCam.transform.rotation.y, 0);
     }
 }
