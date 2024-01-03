@@ -24,6 +24,8 @@ public class PlayerMovement : Object
     public bool isAir = false;
     public bool isHang = false;
 
+    public bool isStop = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -73,7 +75,6 @@ public class PlayerMovement : Object
     {
         if (isPull)
         {
-
             if (_inputReader.InputPos.y > 0 || _inputReader.InputPos.x != 0)
                 return;
 

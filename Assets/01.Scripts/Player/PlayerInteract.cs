@@ -46,6 +46,12 @@ public class PlayerInteract : MonoBehaviour
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
+                if (!playerMovement.isStop)
+                {
+                    playerObj.StopVelocity();
+                    playerMovement.isStop = true;
+                }
+
                 obj.PullObject(playerObj, interactableObj); // ´ç±â±â
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
             }
@@ -57,6 +63,7 @@ public class PlayerInteract : MonoBehaviour
 
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+            playerMovement.isStop = false;
         }
     }
 

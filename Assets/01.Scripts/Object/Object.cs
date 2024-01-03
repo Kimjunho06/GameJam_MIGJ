@@ -36,6 +36,8 @@ public class Object : MonoBehaviour
 
     private void Start()
     {
+        if (!TryGetComponent<PlayerMovement>(out PlayerMovement check))
+            MoveUnAbleObject();
     }
 
     /// <summary>
