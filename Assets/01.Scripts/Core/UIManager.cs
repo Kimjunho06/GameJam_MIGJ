@@ -70,6 +70,8 @@ public class UIManager : MonoBehaviour
     public void OnClickExit()
     {
         exitGamePanel.SetActive(true);
+        var btn = exitGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
+        btn.Select();
     }
 
     public void OnClickOption()
@@ -111,6 +113,8 @@ public class UIManager : MonoBehaviour
     {
         newGamePanel.SetActive(false);
         exitGamePanel.SetActive(false);
+        var btn = panel.transform.Find("Line/GameOption/Button/BackButton").GetComponent<Button>();
+        btn.Select();
     }
 
     public void OnClickNewGame()
