@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoveMentObject : Object
+public class MoveMentObject : MonoBehaviour
 {
     [SerializeField] private GameObject _point1;
     [SerializeField] private GameObject _point2;
 
+    [SerializeField] private float _speed;
+
+    [SerializeField] private float time;
+
+
+    private float curTime;
+    private Rigidbody rb;
     bool isCheck = false;
 
     private void Awake()
@@ -15,24 +22,32 @@ public class MoveMentObject : Object
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        curTime = 0;
+    }
+
     private void Update()
     {
-        if (this.isPushed)
-            return;
-
         Vector3 dir = Vector3.zero;
         if (isCheck)
             dir = _point1.transform.position - transform.position;
         else
             dir = _point2.transform.position - transform.position;
-        dir.y = 0;
 
-        rb.velocity = dir * mess;    
+        rb.MovePosition(rb.position + dir * _speed * Time.deltaTime);
+
+        if (isCheck)
+        {
+            curTime += Time.deltaTime;
+            if (curTime > time) 
+            {
+                isCheck = false;
+            }
+        }
+
+        //rb.velocity = dir * _speed;    
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Point"))
-            isCheck = !isCheck;
-    }
+    
 }

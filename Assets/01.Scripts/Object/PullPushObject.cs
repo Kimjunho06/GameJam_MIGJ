@@ -15,6 +15,7 @@ public class PullPushObject : MonoBehaviour
     {
         interactiedObj.MoveAbleObject();
 
+
         Vector3 dir = (transform.position - interactiveObj.transform.position).normalized;
         Vector3 objectPos = interactiveObj.transform.position;
         
@@ -60,27 +61,43 @@ public class PullPushObject : MonoBehaviour
         if (cmp == null)
             interactiedObj.MoveAbleObject();
 
-        Vector3 dir = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
+        Vector3 pos = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
-        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        Vector3 dir = Vector3.zero;
+
+        if (Mathf.Abs(pos.x) > Mathf.Abs(pos.z))
         {
-            if (dir.x > 0)
-                dir = Vector3.right;
-            else 
-                dir = Vector3.left;
-        }
-        else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
-        {
-            if (dir.z > 0)
-                dir = Vector3.forward;
+            if (pos.x > 0)
+            {
+                pos = Vector3.right;
+                dir = new Vector3(0, 90, 0);
+            }
             else
-                dir = Vector3.back;
+            {
+                pos = Vector3.left;
+                dir = new Vector3(0, 270, 0);
+            }
+        }
+        else if (Mathf.Abs(pos.x) <= Mathf.Abs(pos.z))
+        {
+            if (pos.z > 0)
+            {
+                pos = Vector3.forward;
+                dir = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                pos = Vector3.back;
+                dir = new Vector3(0, 180, 0);
+            }
         }
 
         interactiveObj.mess -= interactiedObj.mess;
 
-        rb.AddForce(dir * 10, ForceMode.Impulse);
+        rb.AddForce(pos * 10, ForceMode.Impulse);
         
+        interactiveObj.transform.rotation = Quaternion.Euler(dir);
+
         StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
         interactiedObj.isPushed = false;
     }
