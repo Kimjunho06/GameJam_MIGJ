@@ -78,7 +78,7 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.mess -= interactiedObj.mess;
         
-        rb.AddForce(dir, ForceMode.Impulse);
+        rb.AddForce(dir * 10, ForceMode.Impulse);
 
         StartCoroutine(UnableMoveDelay(interactiedObj));
         interactiedObj.isPushed = false;

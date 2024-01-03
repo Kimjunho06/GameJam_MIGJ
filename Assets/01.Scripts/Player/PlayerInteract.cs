@@ -9,7 +9,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
-    [SerializeField] private Transform hangCheckPos;
+    //[SerializeField] private Transform hangCheckPos;
 
     Object interactableObj = null;
     Object hangableObj = null;
@@ -25,12 +25,12 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         FindInteractableObject();
-        FindHangableObject();
+        //FindHangableObject();
 
         PullObject();
         PushObject();
 
-        AirHangObject();
+        //AirHangObject();
     }
 
     private void PullObject()
@@ -169,7 +169,7 @@ public class PlayerInteract : MonoBehaviour
             interactableObj = null;
     }
 
-    private void FindHangableObject()
+/*    private void FindHangableObject()
     {
         RaycastHit hit;
         bool isFindObj = false;
@@ -189,15 +189,15 @@ public class PlayerInteract : MonoBehaviour
 
         if (isFindObj)
             hangableObj = null;
-    }
+    }*/
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + _findObjOffset, _radius);
 
-        if (playerObj != null)
-            Gizmos.DrawRay(hangCheckPos.position, playerObj.transform.forward * _hangCheckDist);
+     //   if (playerObj != null)
+     //       Gizmos.DrawRay(hangCheckPos.position, playerObj.transform.forward * _hangCheckDist);
     }
 #endif
 }
