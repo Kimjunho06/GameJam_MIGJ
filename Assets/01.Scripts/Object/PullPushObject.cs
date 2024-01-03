@@ -13,9 +13,10 @@ public class PullPushObject : MonoBehaviour
 
     public void PullObject(Object interactiveObj, Object interactiedObj)
     {
+        interactiedObj.MoveAbleObject();
+
         Vector3 dir = (transform.position - interactiveObj.transform.position).normalized;
         Vector3 objectPos = interactiveObj.transform.position;
-        objectPos.y += 2f;
         
         if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
         {
@@ -46,13 +47,18 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        transform.position = objectPos;
+        transform.position = objectPos + interactiedObj._pullOffset;
         interactiedObj.StopVelocity();
     }
 
     public void PushObject(Object interactiveObj, Object interactiedObj)
     {
-        float calcMess = interactiveObj.mess - interactiedObj.mess;
+        interactiedObj.isPushed = true;
+
+        Component cmp = interactiedObj.GetComponentInParent<SwingObject>();
+        if (cmp == null)
+            interactiedObj.MoveAbleObject();
+
         Vector3 dir = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
         if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
@@ -70,9 +76,25 @@ public class PullPushObject : MonoBehaviour
                 dir = Vector3.back;
         }
 
-        interactiveObj.mess = 0;
-        interactiedObj.mess = calcMess;
+        interactiveObj.mess -= interactiedObj.mess;
+        
+        rb.AddForce(dir, ForceMode.Impulse);
 
-        rb.AddForce(dir * calcMess, ForceMode.Impulse);
+        StartCoroutine(UnableMoveDelay(interactiedObj));
+        interactiedObj.isPushed = false;
+    }
+
+    IEnumerator UnableMoveDelay(Object obj)
+    {
+        WaitForSeconds time = new WaitForSeconds(0.1f);
+        yield return time;
+
+        while (rb.velocity != Vector3.zero)
+        {
+            yield return null;
+        }
+
+        obj.MoveUnAbleObject();
+
     }
 }
