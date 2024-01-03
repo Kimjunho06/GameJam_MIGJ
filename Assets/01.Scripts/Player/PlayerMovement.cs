@@ -18,9 +18,11 @@ public class PlayerMovement : Object
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private CinemachineFreeLook _playerCam;
 
-    private PlayerAnimation _playerAnimatior;
+    public PlayerAnimation _playerAnimatior;
 
     public bool isPull;
+    public bool isAir = false;
+    public bool isHang = false;
 
     private void Awake()
     {
@@ -50,7 +52,12 @@ public class PlayerMovement : Object
             rb.velocity = Vector3.zero;
         }
 
+        if (!IsGround())
+            isAir = true;
+        if (IsGround())
+            isAir = false;
 
+        _playerAnimatior.JumpAnimation(isAir);
         //_playerCam.m_XAxis.Value += _inputReader.InputPos.x * _rotateSpeed * Time.deltaTime;
 
         //transform.rotation = Quaternion.Euler(0, GameManager.Instance._mainCam.transform.rotation.eulerAngles.y, 0);

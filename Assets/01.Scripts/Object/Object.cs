@@ -1,6 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum ObjectType
+{
+    Object,
+    Drum,
+    Brick,
+    Bag
+}
 
 [RequireComponent(typeof(MessDisplay))]
 public class Object : MonoBehaviour
@@ -12,8 +21,13 @@ public class Object : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
 
     [SerializeField] protected float _gravity = -9.8f;
+    public Vector3 _pullOffset;
 
     protected Rigidbody rb;
+
+    public bool isPushed;
+
+    public ObjectType _objectType;
 
     private void Awake()
     {
@@ -22,11 +36,6 @@ public class Object : MonoBehaviour
 
     private void Start()
     {
-    }
-
-    private void Update()
-    {
-
     }
 
     /// <summary>
@@ -56,6 +65,16 @@ public class Object : MonoBehaviour
     public void StopVelocity()
     {
         rb.velocity = Vector3.zero;
+    }
+
+    public void MoveAbleObject()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+    
+    public void MoveUnAbleObject()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
 #if UNITY_EDITOR
