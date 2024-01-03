@@ -57,7 +57,15 @@ public class PlayerInteract : MonoBehaviour
                 }
 
                 obj.PullObject(playerObj, interactableObj); // ´ç±â±â
+
+                if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
+                {
+                    playerObj.mess -= interactableObj.mess;
+                }
+
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
+
+
             }
         }
         if (Input.GetKeyUp(KeyCode.Q))
@@ -80,6 +88,7 @@ public class PlayerInteract : MonoBehaviour
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
                 return;
 
+            playerMovement._playerAnimatior.PushAnimation();
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
                 obj.PushObject(playerObj, interactableObj);
