@@ -26,18 +26,13 @@ public class PlayerInteract : MonoBehaviour
     {
         FindInteractableObject();
         //FindHangableObject();
-        
+
         if (interactableObj != null )
         {
-            if (interactableObj.isPushed)
+            if (interactableObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
-                float dist = Vector3.Distance(interactableObj.transform.position, playerObj.transform.position);
-                if (dist < 0.2f)
-                {
-                    Debug.Log("aaaaaaa");
-                }
+                Debug.Log(rb.velocity);
             }
-
         }
 
         PullObject();
@@ -161,6 +156,7 @@ public class PlayerInteract : MonoBehaviour
     private void FindInteractableObject()
     {
         if (playerMovement.isPull) return;
+        if (playerMovement.isPush) return;
 
         float maxDist = _radius + 1;
         bool isFindObj = false;
