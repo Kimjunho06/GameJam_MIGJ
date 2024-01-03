@@ -9,10 +9,11 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
-    [SerializeField] private Transform hangCheckPos;
+    [SerializeField] private Vector3 _arrowOffset;
+    //[SerializeField] private Transform hangCheckPos;
 
     Object interactableObj = null;
-    Object hangableObj = null;
+    //Object hangableObj = null;
     Object playerObj;
     PlayerMovement playerMovement;
 
@@ -25,12 +26,15 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         FindInteractableObject();
-        FindHangableObject();
+        //FindHangableObject();
+        ViewArrow();
 
         PullObject();
         PushObject();
 
-        AirHangObject();
+
+
+        //AirHangObject();
     }
 
     private void PullObject()
@@ -46,6 +50,12 @@ public class PlayerInteract : MonoBehaviour
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
+                if (!playerMovement.isStop)
+                {
+                    playerObj.StopVelocity();
+                    playerMovement.isStop = true;
+                }
+
                 obj.PullObject(playerObj, interactableObj); // ´ç±â±â
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
             }
@@ -57,6 +67,7 @@ public class PlayerInteract : MonoBehaviour
 
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+            playerMovement.isStop = false;
         }
     }
 
@@ -136,9 +147,55 @@ public class PlayerInteract : MonoBehaviour
         playerObj.mess += minusMess;
     }
 
+    private void ViewArrow()
+    {
+        GameObject arrow = GameManager.Instance._pushDirectionArrow;
+        arrow.SetActive(interactableObj != null);
+        if (interactableObj == null)
+            return;
+        if (playerObj == null)
+            return;
+
+        Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
+        Vector3 pos = interactableObj.transform.position;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        {
+            if (dir.x > 0)
+            {
+                dir = new Vector3(0, 90, 0);
+                pos += Vector3.right;
+            }
+            else
+            {
+                dir = new Vector3(0, 270, 0);
+                pos += Vector3.left;
+            }
+           
+        }
+        else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
+        {
+            if (dir.z > 0)
+            {
+                dir = new Vector3(0, 0, 0);
+                pos += Vector3.forward;
+            }
+            else
+            {
+                dir = new Vector3(0, 180, 0);
+                pos += Vector3.back;
+            }
+        }
+        dir.x = 90;
+
+        arrow.transform.position = pos + _arrowOffset;
+        arrow.transform.rotation = Quaternion.Euler(dir);
+    }
+
     private void FindInteractableObject()
     {
         if (playerMovement.isPull) return;
+        if (playerMovement.isPush) return;
 
         float maxDist = _radius + 1;
         bool isFindObj = false;
@@ -169,7 +226,7 @@ public class PlayerInteract : MonoBehaviour
             interactableObj = null;
     }
 
-    private void FindHangableObject()
+    /*private void FindHangableObject()
     {
         RaycastHit hit;
         bool isFindObj = false;
@@ -189,15 +246,15 @@ public class PlayerInteract : MonoBehaviour
 
         if (isFindObj)
             hangableObj = null;
-    }
+    }*/
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + _findObjOffset, _radius);
 
-        if (playerObj != null)
-            Gizmos.DrawRay(hangCheckPos.position, playerObj.transform.forward * _hangCheckDist);
+       // if (playerObj != null)
+       //     Gizmos.DrawRay(hangCheckPos.position, playerObj.transform.forward * _hangCheckDist);
     }
 #endif
 }

@@ -23,6 +23,9 @@ public class PlayerMovement : Object
     public bool isPull;
     public bool isAir = false;
     public bool isHang = false;
+    public bool isPush = false;
+
+    public bool isStop = false;
 
     private void Awake()
     {
@@ -57,6 +60,9 @@ public class PlayerMovement : Object
         if (IsGround())
             isAir = false;
 
+        if (isPush)
+            StopVelocity();
+
         _playerAnimatior.JumpAnimation(isAir);
         //_playerCam.m_XAxis.Value += _inputReader.InputPos.x * _rotateSpeed * Time.deltaTime;
 
@@ -66,6 +72,11 @@ public class PlayerMovement : Object
 
     private void FixedUpdate()
     {
+        if (isPush)
+        {
+            _playerAnimatior.MoveAnimation(0);
+            return;
+        }
         PlayerMove();
     }
 
@@ -73,7 +84,6 @@ public class PlayerMovement : Object
     {
         if (isPull)
         {
-
             if (_inputReader.InputPos.y > 0 || _inputReader.InputPos.x != 0)
                 return;
 
