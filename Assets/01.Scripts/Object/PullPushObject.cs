@@ -94,7 +94,7 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.mess -= interactiedObj.mess;
 
-        rb.AddForce(pos * 10, ForceMode.Impulse);
+        rb.AddForce(pos * interactiedObj.mess, ForceMode.Impulse);
         
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
