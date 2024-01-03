@@ -5,7 +5,6 @@ using UnityEngine;
 public class CleanArea : MonoBehaviour
 {
     public int maxCnt;
-    
     [SerializeField] private ObjectType objectType;
     [SerializeField] private List<GameObject> objects;
     
@@ -15,7 +14,7 @@ public class CleanArea : MonoBehaviour
     {
         cnt = 0;
 
-        if (maxCnt != objects.Count)
+        if (maxCnt + 1 != objects.Count)
         {
             Debug.LogError("Not Enough Objects");
         }
@@ -24,6 +23,9 @@ public class CleanArea : MonoBehaviour
         {
             obj.SetActive(false);
         }
+
+        objects[cnt].SetActive(true);
+        cnt++;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,7 +35,14 @@ public class CleanArea : MonoBehaviour
             if (obj._objectType == objectType)
             {
                 obj.gameObject.SetActive(false);
+
+                foreach (var activeObj in objects)
+                {
+                    activeObj.gameObject.SetActive(false);
+                }
+
                 objects[cnt].SetActive(true);
+
                 cnt++;
             }
         }
