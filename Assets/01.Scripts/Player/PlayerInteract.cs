@@ -31,6 +31,7 @@ public class PlayerInteract : MonoBehaviour
 
         PullObject();
         PushObject();
+        LeverObject();
 
         //AirHangObject();
     }
@@ -90,6 +91,26 @@ public class PlayerInteract : MonoBehaviour
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
                 obj.PushObject(playerObj, interactableObj);
+            }
+        }
+    }
+
+    private void LeverObject()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (interactableObj == null)
+                return;
+            if (playerObj == null)
+                return;
+
+            if (interactableObj.TryGetComponent<LeverObject>(out LeverObject obj))
+            {
+                if (obj.TryGetComponent<Object>(out Object ObjMess))
+                {
+                    playerObj.mess -= ObjMess.mess;
+                }
+                obj.moveMentObject.isLever = true;
             }
         }
     }

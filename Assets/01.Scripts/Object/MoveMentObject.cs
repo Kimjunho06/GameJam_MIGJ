@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MoveMentObject : MonoBehaviour
 {
+    public bool isLever = false;
+
     [SerializeField] private GameObject _point1;
     [SerializeField] private GameObject _point2;
 
@@ -16,6 +18,7 @@ public class MoveMentObject : MonoBehaviour
     private float curTime;
     private Rigidbody rb;
     bool isCheck = false;
+    bool isStay = false;
 
     private void Awake()
     {
@@ -29,6 +32,11 @@ public class MoveMentObject : MonoBehaviour
 
     private void Update()
     {
+        // point1 up
+        // point2 down
+        if (!isLever)
+            return;
+
         Vector3 dir = Vector3.zero;
         if (isCheck)
             dir = _point1.transform.position - transform.position;
@@ -37,17 +45,32 @@ public class MoveMentObject : MonoBehaviour
 
         rb.MovePosition(rb.position + dir * _speed * Time.deltaTime);
 
-        if (isCheck)
+        if (isStay)
         {
             curTime += Time.deltaTime;
             if (curTime > time) 
             {
-                isCheck = false;
+                isCheck = true;
+                curTime = 0;
+                isStay = false;
             }
         }
 
         //rb.velocity = dir * _speed;    
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == _point1)
+        {
+            isLever = false;
+        }
+        
+        if (other.gameObject == _point2)
+        {
+            isStay = true;
+        }
+    }
+
+
 }
