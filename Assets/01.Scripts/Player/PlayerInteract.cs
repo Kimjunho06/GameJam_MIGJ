@@ -9,6 +9,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
+    [SerializeField] private Vector3 _arrowOffset;
     //[SerializeField] private Transform hangCheckPos;
 
     Object interactableObj = null;
@@ -26,14 +27,7 @@ public class PlayerInteract : MonoBehaviour
     {
         FindInteractableObject();
         //FindHangableObject();
-
-        if (interactableObj != null )
-        {
-            if (interactableObj.TryGetComponent<Rigidbody>(out Rigidbody rb))
-            {
-                Debug.Log(rb.velocity);
-            }
-        }
+        ViewArrow();
 
         PullObject();
         PushObject();
@@ -151,6 +145,51 @@ public class PlayerInteract : MonoBehaviour
 
         interactableObj.mess -= minusMess;
         playerObj.mess += minusMess;
+    }
+
+    private void ViewArrow()
+    {
+        GameObject arrow = GameManager.Instance._pushDirectionArrow;
+        arrow.SetActive(interactableObj != null);
+        if (interactableObj == null)
+            return;
+        if (playerObj == null)
+            return;
+
+        Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
+        Vector3 pos = interactableObj.transform.position;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        {
+            if (dir.x > 0)
+            {
+                dir = new Vector3(0, 90, 0);
+                pos += Vector3.right;
+            }
+            else
+            {
+                dir = new Vector3(0, 270, 0);
+                pos += Vector3.left;
+            }
+           
+        }
+        else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
+        {
+            if (dir.z > 0)
+            {
+                dir = new Vector3(0, 0, 0);
+                pos += Vector3.forward;
+            }
+            else
+            {
+                dir = new Vector3(0, 180, 0);
+                pos += Vector3.back;
+            }
+        }
+        dir.x = 90;
+
+        arrow.transform.position = pos + _arrowOffset;
+        arrow.transform.rotation = Quaternion.Euler(dir);
     }
 
     private void FindInteractableObject()
