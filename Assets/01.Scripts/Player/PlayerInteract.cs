@@ -69,8 +69,11 @@ public class PlayerInteract : MonoBehaviour
 
         if (Input.GetKey(KeyCode.F))
         {
+            Vector3 hangPos = Vector3.zero;
             if (!interactableObj.TryGetComponent<HangableObject>(out HangableObject obj))
                 return;
+            else
+                hangPos = obj._hangPos;
 
             playerMovement.isHang = true;
 
@@ -81,7 +84,7 @@ public class PlayerInteract : MonoBehaviour
                 playerMovement._playerAnimatior.AirHangAnimation(playerMovement.isHang);
                 return;
             }
-            playerObj.transform.position = interactableObj.transform.position;
+            playerObj.transform.position = hangPos;
             DrainMess();
         }
         if (Input.GetKeyUp(KeyCode.F))

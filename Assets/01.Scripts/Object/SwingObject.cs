@@ -6,8 +6,9 @@ public class SwingObject : MonoBehaviour
 {
     Object obj;
 
-    public float angle = 0;
+    public float power = 0;
 
+    private float angle = 0;
     private float lerpTime = 0;
     private float speed = 2f;
 
@@ -18,6 +19,7 @@ public class SwingObject : MonoBehaviour
 
     private void Update()
     {
+        angle = obj.mess * power; 
         lerpTime += Time.deltaTime * speed;
         transform.rotation = CalculateMovementOfPendulum();
     }

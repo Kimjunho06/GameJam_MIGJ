@@ -17,6 +17,9 @@ public class MoveMentObject : Object
 
     private void Update()
     {
+        if (this.isPushed)
+            return;
+
         Vector3 dir = Vector3.zero;
         if (isCheck)
             dir = _point1.transform.position - transform.position;
@@ -24,7 +27,7 @@ public class MoveMentObject : Object
             dir = _point2.transform.position - transform.position;
         dir.y = 0;
 
-        rb.velocity = dir;    
+        rb.velocity = dir * mess;    
     }
 
     private void OnTriggerEnter(Collider other)

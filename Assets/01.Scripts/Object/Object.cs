@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(MessDisplay))]
@@ -15,6 +16,8 @@ public class Object : MonoBehaviour
 
     protected Rigidbody rb;
 
+    public bool isPushed;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,11 +25,6 @@ public class Object : MonoBehaviour
 
     private void Start()
     {
-    }
-
-    private void Update()
-    {
-
     }
 
     /// <summary>
@@ -56,6 +54,16 @@ public class Object : MonoBehaviour
     public void StopVelocity()
     {
         rb.velocity = Vector3.zero;
+    }
+
+    public void MoveAbleObject()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+    
+    public void MoveUnAbleObject()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
 #if UNITY_EDITOR

@@ -52,6 +52,12 @@ public class PullPushObject : MonoBehaviour
 
     public void PushObject(Object interactiveObj, Object interactiedObj)
     {
+        interactiedObj.isPushed = true;
+
+        Component cmp = interactiedObj.GetComponentInParent<SwingObject>();
+        if (cmp == null)
+            interactiedObj.MoveAbleObject();
+
         float calcMess = interactiveObj.mess - interactiedObj.mess;
         Vector3 dir = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
@@ -74,5 +80,22 @@ public class PullPushObject : MonoBehaviour
         interactiedObj.mess = calcMess;
 
         rb.AddForce(dir * calcMess, ForceMode.Impulse);
+
+        StartCoroutine(UnableMoveDelay(interactiedObj));
+        interactiedObj.isPushed = false;
+    }
+
+    IEnumerator UnableMoveDelay(Object obj)
+    {
+        WaitForSeconds time = new WaitForSeconds(0.1f);
+        yield return time;
+
+        while (rb.velocity != Vector3.zero)
+        {
+            yield return null;
+        }
+
+        obj.MoveUnAbleObject();
+
     }
 }
