@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _radius = 5f;
+    [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
+    [SerializeField] private Transform hangCheckPos;
+
     Object interactableObj = null;
+    Object hangableObj = null;
     Object playerObj;
     PlayerMovement playerMovement;
 
@@ -19,12 +25,7 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         FindInteractableObject();
-        
-        if (interactableObj == null)
-        {
-            Debug.Log("interactable Object is null");
-            return;
-        }
+        FindHangableObject();
 
         PullObject();
         PushObject();
@@ -36,7 +37,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Q))
         {
+            if (interactableObj == null)
+                return;
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
+                return;
+            if (!playerMovement.IsGround())
                 return;
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
@@ -46,16 +51,23 @@ public class PlayerInteract : MonoBehaviour
             }
         }
         if (Input.GetKeyUp(KeyCode.Q))
+        {
+            if (interactableObj == null)
+                return;
+
+            interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+        }
     }
 
     private void PushObject()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (interactableObj == null)
+                return;
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
                 return;
-
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
@@ -85,7 +97,7 @@ public class PlayerInteract : MonoBehaviour
                 return;
             }
             playerObj.transform.position = hangPos;
-            DrainMess();
+            //DrainMess();
         }
         if (Input.GetKeyUp(KeyCode.F))
         {
@@ -126,6 +138,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void FindInteractableObject()
     {
+        if (playerMovement.isPull) return;
+
         float maxDist = _radius + 1;
         bool isFindObj = false;
         
@@ -150,14 +164,40 @@ public class PlayerInteract : MonoBehaviour
         if (interactableObj == null)
             return;
 
+        // 범위 나갔을 때 안에 저장된 오브젝트 초기화.
         if (!isFindObj)
             interactableObj = null;
+    }
+
+    private void FindHangableObject()
+    {
+        RaycastHit hit;
+        bool isFindObj = false;
+
+        if (Physics.Raycast(hangCheckPos.position, playerObj.transform.forward, out hit, _hangCheckDist))
+        {
+            if (hit.collider == null) return;
+            if (hit.collider.TryGetComponent<Object>(out Object obj))
+            {
+                if (obj.TryGetComponent<HangableObject>(out HangableObject hangable))
+                {
+                    hangableObj = obj;
+                    isFindObj = true;
+                }
+            }
+        }
+
+        if (isFindObj)
+            hangableObj = null;
     }
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + _findObjOffset, _radius);
+
+        if (playerObj != null)
+            Gizmos.DrawRay(hangCheckPos.position, playerObj.transform.forward * _hangCheckDist);
     }
 #endif
 }

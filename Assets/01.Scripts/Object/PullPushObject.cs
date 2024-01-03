@@ -13,9 +13,10 @@ public class PullPushObject : MonoBehaviour
 
     public void PullObject(Object interactiveObj, Object interactiedObj)
     {
+        interactiedObj.MoveAbleObject();
+
         Vector3 dir = (transform.position - interactiveObj.transform.position).normalized;
         Vector3 objectPos = interactiveObj.transform.position;
-        objectPos.y += 2f;
         
         if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
         {
@@ -46,7 +47,7 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        transform.position = objectPos;
+        transform.position = objectPos + interactiedObj._pullOffset;
         interactiedObj.StopVelocity();
     }
 
@@ -58,7 +59,6 @@ public class PullPushObject : MonoBehaviour
         if (cmp == null)
             interactiedObj.MoveAbleObject();
 
-        float calcMess = interactiveObj.mess - interactiedObj.mess;
         Vector3 dir = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
         if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
@@ -76,10 +76,9 @@ public class PullPushObject : MonoBehaviour
                 dir = Vector3.back;
         }
 
-        interactiveObj.mess = 0;
-        interactiedObj.mess = calcMess;
-
-        rb.AddForce(dir * calcMess, ForceMode.Impulse);
+        interactiveObj.mess -= interactiedObj.mess;
+        
+        rb.AddForce(dir, ForceMode.Impulse);
 
         StartCoroutine(UnableMoveDelay(interactiedObj));
         interactiedObj.isPushed = false;

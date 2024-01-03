@@ -286,6 +286,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2126885637}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &179196896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179196897}
+  - component: {fileID: 179196900}
+  - component: {fileID: 179196899}
+  m_Layer: 0
+  m_Name: CleanArea1
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &179196897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179196896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &179196899
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179196896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &179196900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179196896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e389a86a844ccd34cb893540ebe4c9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCnt: 3
+  objectType: 1
+  objects: []
 --- !u!1 &203727955
 GameObject:
   m_ObjectHideFlags: 3
@@ -862,7 +931,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _gravity: -9.8
+  _pullOffset: {x: 0, y: 0, z: 0}
   isPushed: 0
+  _objectType: 0
   _point1: {fileID: 1792366799}
   _point2: {fileID: 40085437}
 --- !u!54 &507478878
@@ -1048,7 +1119,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _gravity: -9.8
+  _pullOffset: {x: 0, y: 0.5, z: 0}
   isPushed: 0
+  _objectType: 0
 --- !u!114 &508763542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,7 +1475,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _gravity: 0
+  _pullOffset: {x: 0, y: 0, z: 0}
   isPushed: 0
+  _objectType: 0
 --- !u!114 &556198409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1770,6 +1845,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &972414689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972414690}
+  m_Layer: 0
+  m_Name: HangChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &972414690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972414689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2126885637}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1114900827
 GameObject:
@@ -2487,6 +2593,7 @@ Transform:
   m_Children:
   - {fileID: 1429753184902511472}
   - {fileID: 105487711}
+  - {fileID: 972414690}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2126885638
@@ -2535,7 +2642,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _gravity: -9.8
+  _pullOffset: {x: 0, y: 0, z: 0}
   isPushed: 0
+  _objectType: 0
   _moveSpeed: 4
   _rotateSpeed: 100
   _jumpForce: 2
@@ -2565,7 +2674,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _gravity: -10
+  _pullOffset: {x: 0, y: 0, z: 0}
   isPushed: 0
+  _objectType: 0
 --- !u!114 &2126885641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2617,7 +2728,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 1
+  _hangCheckDist: 5
   _findObjOffset: {x: 0, y: 1, z: 0}
+  hangCheckPos: {fileID: 972414690}
 --- !u!1 &136328866866491424
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,3 +4245,4 @@ SceneRoots:
   - {fileID: 1208221432}
   - {fileID: 1582325848}
   - {fileID: 571296666}
+  - {fileID: 179196897}

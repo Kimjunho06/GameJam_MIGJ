@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ObjectType
+{
+    Object,
+    Drum,
+    Brick,
+    Bag
+}
+
 [RequireComponent(typeof(MessDisplay))]
 public class Object : MonoBehaviour
 {
@@ -13,10 +21,13 @@ public class Object : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
 
     [SerializeField] protected float _gravity = -9.8f;
+    public Vector3 _pullOffset;
 
     protected Rigidbody rb;
 
     public bool isPushed;
+
+    public ObjectType _objectType;
 
     private void Awake()
     {
