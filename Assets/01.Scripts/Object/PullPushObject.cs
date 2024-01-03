@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PullPushObject : MonoBehaviour
 {
+    [SerializeField] private float _pullDistance;
     Rigidbody rb;
 
     private void Awake()
@@ -15,6 +16,24 @@ public class PullPushObject : MonoBehaviour
     {
         interactiedObj.MoveAbleObject();
 
+        if (Vector3.Distance(startPos, interactiedObj.transform.position) >= _pullDistance)
+        {
+            interactiedObj.MoveUnAbleObject();
+
+            if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+            {
+                player.isPull = false;
+                player.isStop = false;
+
+                if (player.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+                {
+                    interact.pullStartPos = Vector3.zero;
+                    interact.isStopPull = true;
+                }
+            }
+
+            return;
+        }
 
         Vector3 dir = (transform.position - interactiveObj.transform.position).normalized;
         Vector3 objectPos = interactiveObj.transform.position;

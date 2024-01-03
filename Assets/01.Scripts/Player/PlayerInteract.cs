@@ -15,7 +15,9 @@ public class PlayerInteract : MonoBehaviour
     Object playerObj;
     PlayerMovement playerMovement;
 
-    Vector3 pullStartPos = Vector3.zero;
+    public Vector3 pullStartPos = Vector3.zero;
+
+    public bool isStopPull;
 
     private void Awake()
     {
@@ -46,6 +48,11 @@ public class PlayerInteract : MonoBehaviour
                 return;
             if (!playerMovement.IsGround())
                 return;
+            if (isStopPull)
+            {
+                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+                return;
+            }
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
@@ -71,6 +78,7 @@ public class PlayerInteract : MonoBehaviour
             if (interactableObj == null)
                 return;
 
+            isStopPull = false;
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
             playerMovement.isStop = false;
