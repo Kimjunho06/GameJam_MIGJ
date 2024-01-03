@@ -7,6 +7,7 @@ public class PlayerAnimation : MonoBehaviour
     readonly int _velocityHash = Animator.StringToHash("velocity");
     readonly int _jumpHash = Animator.StringToHash("isJump");
     readonly int _airHangHash = Animator.StringToHash("isAirHang");
+    readonly int _pushHash = Animator.StringToHash("isPush");
     Animator _animator;
 
     private void Awake()
@@ -27,6 +28,11 @@ public class PlayerAnimation : MonoBehaviour
     public void AirHangAnimation(bool value)
     {
         _animator.SetBool(_airHangHash, value);
+    }
+    
+    public void PushAnimation(bool value)
+    {
+        _animator.SetBool(_pushHash, value);
     }
 
 }

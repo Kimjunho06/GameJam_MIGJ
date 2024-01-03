@@ -54,6 +54,7 @@ public class PullPushObject : MonoBehaviour
     public void PushObject(Object interactiveObj, Object interactiedObj)
     {
         interactiedObj.isPushed = true;
+        interactiveObj.GetComponent<PlayerMovement>().isPush = true;
 
         Component cmp = interactiedObj.GetComponentInParent<SwingObject>();
         if (cmp == null)
@@ -77,24 +78,26 @@ public class PullPushObject : MonoBehaviour
         }
 
         interactiveObj.mess -= interactiedObj.mess;
-        
-        rb.AddForce(dir * 10, ForceMode.Impulse);
 
-        StartCoroutine(UnableMoveDelay(interactiedObj));
+        rb.AddForce(dir * 10, ForceMode.Impulse);
+        
+        StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
         interactiedObj.isPushed = false;
     }
 
-    IEnumerator UnableMoveDelay(Object obj)
+    IEnumerator UnableMoveDelay(Object interactiveObj ,Object interactiedObj)
     {
         WaitForSeconds time = new WaitForSeconds(0.1f);
         yield return time;
 
-        while (rb.velocity != Vector3.zero)
+        while (new Vector3((int)rb.velocity.x, (int)rb.velocity.y, (int)rb.velocity.z)!= Vector3.zero)
         {
+            Debug.Log("stay");
+            Debug.Log(rb.velocity);
             yield return null;
         }
 
-        obj.MoveUnAbleObject();
-
+        interactiedObj.MoveUnAbleObject();
+        interactiveObj.GetComponent<PlayerMovement>().isPush = false;
     }
 }
