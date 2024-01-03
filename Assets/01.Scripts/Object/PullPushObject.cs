@@ -11,7 +11,7 @@ public class PullPushObject : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void PullObject(Object interactiveObj, Object interactiedObj)
+    public void PullObject(Object interactiveObj, Object interactiedObj, Vector3 startPos)
     {
         interactiedObj.MoveAbleObject();
 

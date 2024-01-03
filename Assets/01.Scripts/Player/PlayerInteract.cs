@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _radius = 5f;
@@ -16,6 +14,8 @@ public class PlayerInteract : MonoBehaviour
     //Object hangableObj = null;
     Object playerObj;
     PlayerMovement playerMovement;
+
+    Vector3 pullStartPos = Vector3.zero;
 
     private void Awake()
     {
@@ -31,8 +31,6 @@ public class PlayerInteract : MonoBehaviour
 
         PullObject();
         PushObject();
-
-
 
         //AirHangObject();
     }
@@ -56,16 +54,15 @@ public class PlayerInteract : MonoBehaviour
                     playerMovement.isStop = true;
                 }
 
-                obj.PullObject(playerObj, interactableObj); // 당기기
-
                 if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
                 {
                     playerObj.mess -= interactableObj.mess;
+                    pullStartPos = interactableObj.transform.position;
                 }
 
+                obj.PullObject(playerObj, interactableObj, pullStartPos); // 당기기
+
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
-
-
             }
         }
         if (Input.GetKeyUp(KeyCode.Q))
@@ -76,6 +73,7 @@ public class PlayerInteract : MonoBehaviour
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
             playerMovement.isStop = false;
+            pullStartPos = Vector3.zero;
         }
     }
 
