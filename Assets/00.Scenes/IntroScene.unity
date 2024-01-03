@@ -732,7 +732,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2046727275}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: UIManager1, Assembly-CSharp
         m_MethodName: OnClickStart
         m_Mode: 1
         m_Arguments:
@@ -1227,7 +1227,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2046727275}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: UIManager1, Assembly-CSharp
         m_MethodName: OnClickOption
         m_Mode: 1
         m_Arguments:
@@ -1495,7 +1495,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2046727275}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: UIManager1, Assembly-CSharp
         m_MethodName: RealExitGame
         m_Mode: 1
         m_Arguments:
@@ -1754,6 +1754,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622783543}
   m_CullTransparentMesh: 1
+--- !u!1 &1766131366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766131367}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1766131367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766131366}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.3126535, y: 6.4595947, z: 0.7813483}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2046727274}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046727273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,12 +1811,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046727273}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 670.2832, y: 559.6695, z: 2.236877}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 665.9705, y: 553.2099, z: 1.4555287}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1766131367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2046727275
 MonoBehaviour:
@@ -1795,15 +1827,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2046727273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c0ab36b951b6824f9c665aa484c13f6, type: 3}
+  m_Script: {fileID: 11500000, guid: dfe07d2b1c3ee764ea7bb22941062d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 957168888}
-  newGamePanel: {fileID: 0}
-  exitGamePanel: {fileID: 0}
   _fadeImage: {fileID: 1569195943}
   fadeImage: {fileID: 1569195945}
   fadeTime: 1
+  startButton: {fileID: 506264627}
+  optionButton: {fileID: 0}
+  exitButton: {fileID: 1547402507}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1813,4 +1845,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 576064882}
   - {fileID: 770509759}
-  - {fileID: 2046727274}
+  - {fileID: 1766131367}
