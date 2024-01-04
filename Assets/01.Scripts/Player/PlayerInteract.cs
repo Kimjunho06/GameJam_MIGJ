@@ -19,6 +19,8 @@ public class PlayerInteract : MonoBehaviour
 
     public bool isStopPull;
 
+    public bool isPulling;
+
     private void Awake()
     {
         playerObj = GetComponent<Object>();
@@ -35,22 +37,12 @@ public class PlayerInteract : MonoBehaviour
         PushObject();
         LeverObject();
 
-        if (interactableObj != null)
-        {
-            if (!interactableObj.gameObject.activeSelf)
-            {
-                playerMovement.isPush = false;
-                playerMovement.isPull = false;
-                interactableObj = null;
-            }
-        }
-
         //AirHangObject();
     }
 
     private void PullObject()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (interactableObj == null)
                 return;
@@ -58,45 +50,35 @@ public class PlayerInteract : MonoBehaviour
                 return;
             if (!playerMovement.IsGround())
                 return;
-            if (isStopPull)
-            {
-                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
-                isStopPull = false;
-                return;
-            }
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
-                if (!playerMovement.isStop)
-                {
-                    playerObj.StopVelocity();
-                    playerMovement.isStop = true;
-                }
-
-                if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
-                {
-                    playerObj.mess -= interactableObj.mess;
-                    objPullStartPos = interactableObj.transform.position;
-                    playerPullStartPos = playerObj.transform.position;
-                }
-
-                obj.PullObject(playerObj, interactableObj, playerPullStartPos, objPullStartPos); // 당기기
-
-                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
+                isPulling = true;
             }
         }
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            if (interactableObj == null)
-                return;
 
-            isStopPull = false;
-            interactableObj.MoveUnAbleObject();
-            playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
-            playerMovement.isStop = false;
-            objPullStartPos = Vector3.zero;
-            playerPullStartPos = Vector3.zero;
+        if (isPulling)
+        {
+            if (!playerMovement.isStop)
+            {
+                playerObj.StopVelocity();
+                playerMovement.isStop = true;
+            }
+
+            if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
+            {
+                playerObj.mess -= interactableObj.mess;
+                objPullStartPos = interactableObj.transform.position;
+                playerPullStartPos = playerObj.transform.position;
+            }
+
+            playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
+
+            if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
+                obj.PullObject(playerObj, interactableObj, playerPullStartPos, objPullStartPos); // 당기기
+
         }
+        
     }
 
     private void PushObject()
