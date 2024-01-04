@@ -10,6 +10,8 @@ public class CleanAreaH : MonoBehaviour
     
     private int cnt;
 
+    public bool isClear;
+
     private void Start()
     {
         cnt = 0;
