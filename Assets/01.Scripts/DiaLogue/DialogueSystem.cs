@@ -49,7 +49,6 @@ public class DialogueSystem : MonoBehaviour
     {
         if(isTyping == true)
         {
-            
             return;
         }
         if(sentences.Count == 0)
@@ -60,7 +59,6 @@ public class DialogueSystem : MonoBehaviour
         txtSentence.text = string.Empty;
         StopAllCoroutines();
         typingCo = StartCoroutine(Typing(sentences.Dequeue()));
-        Debug.Log("type");
     }
 
     public IEnumerator Skip()
@@ -84,7 +82,6 @@ public class DialogueSystem : MonoBehaviour
     IEnumerator Typing(string sentence)
     {
         isSecond = true;
-        Debug.Log("tlfgod");
         isTyping = true;
         currentSentence = sentence;
 
