@@ -13,15 +13,43 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _fadeImage;
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeTime;
+    [SerializeField] private Button backButton;
+    [SerializeField] private Button newGameButton;
+    [SerializeField] private Button exitButton;
 
     private bool isPanelOpened = true;
     private bool isFaded = false;
+
+    private Button selectedButton;
+
+    private void Awake()
+    {
+        selectedButton = backButton;
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenPanel();
+        }
+        selectedButton.Select();
+
+        if(selectedButton == backButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = newGameButton;
+        }
+        else if(selectedButton == newGameButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = exitButton;
+        }
+        if (selectedButton == newGameButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = backButton;
+        }
+        if (selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = newGameButton;
         }
     }
 
