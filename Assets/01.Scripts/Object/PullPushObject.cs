@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PullPushObject : MonoBehaviour
@@ -12,6 +13,10 @@ public class PullPushObject : MonoBehaviour
     [SerializeField] private float _moveTime;
 
     Rigidbody rb;
+    Vector3 pushStartPos;
+
+    bool isMoving;
+    Tween pushTween;
 
     private void Awake()
     {
@@ -82,7 +87,7 @@ public class PullPushObject : MonoBehaviour
         interactiedObj.StopVelocity();
     }
 
-    public void PushObject(Object interactiveObj, Object interactiedObj)
+    public void PushObject(Object interactiveObj, Object interactiedObj, Vector3 startPos)
     {
         interactiedObj.isPushed = true;
         interactiveObj.GetComponent<PlayerMovement>().isPush = true;
@@ -91,34 +96,70 @@ public class PullPushObject : MonoBehaviour
         if (cmp == null)
             interactiedObj.MoveAbleObject();
 
-        Vector3 pos = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
+        //Vector3 pos = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
+        //Vector3 dir = Vector3.zero;
+
+        //if (Mathf.Abs(pos.x) > Mathf.Abs(pos.z))
+        //{
+        //    if (pos.x > 0)
+        //    {
+        //        pos = Vector3.right;
+        //        dir = new Vector3(0, 90, 0);
+        //    }
+        //    else
+        //    {
+        //        pos = Vector3.left;
+        //        dir = new Vector3(0, 270, 0);
+        //    }
+        //}
+        //else if (Mathf.Abs(pos.x) <= Mathf.Abs(pos.z))
+        //{
+        //    if (pos.z > 0)
+        //    {
+        //        pos = Vector3.forward;
+        //        dir = new Vector3(0, 0, 0);
+        //    }
+        //    else
+        //    {
+        //        pos = Vector3.back;
+        //        dir = new Vector3(0, 180, 0);
+        //    }
+        //}
+
+        Vector3 pos = Vector3.zero;
         Vector3 dir = Vector3.zero;
 
-        if (Mathf.Abs(pos.x) > Mathf.Abs(pos.z))
+        Bounds objBound = new Bounds();
+        if (interactiedObj.TryGetComponent<Collider>(out Collider collider))
+            objBound = collider.bounds;
+        else
+            Debug.LogError("Not Found Collider");
+
+        if (interactiveObj.transform.position.x > objBound.min.x && interactiveObj.transform.position.x < objBound.max.x) // »óÇÏ
         {
-            if (pos.x > 0)
-            {
-                pos = Vector3.right;
-                dir = new Vector3(0, 90, 0);
-            }
-            else
-            {
-                pos = Vector3.left;
-                dir = new Vector3(0, 270, 0);
-            }
-        }
-        else if (Mathf.Abs(pos.x) <= Mathf.Abs(pos.z))
-        {
-            if (pos.z > 0)
+            if (interactiveObj.transform.position.z < objBound.min.z)
             {
                 pos = Vector3.forward;
                 dir = new Vector3(0, 0, 0);
             }
-            else
+            else if (interactiveObj.transform.position.z > objBound.max.z)
             {
                 pos = Vector3.back;
                 dir = new Vector3(0, 180, 0);
+            }
+        }
+        else if (interactiveObj.transform.position.z > objBound.min.z && interactiveObj.transform.position.z < objBound.max.z) // ÁÂ¿ì
+        {
+            if (interactiveObj.transform.position.x < objBound.min.x)
+            {
+                pos = Vector3.right;
+                dir = new Vector3(0, 90, 0);
+            }
+            else if (interactiveObj.transform.position.x > objBound.max.x)
+            {
+                pos = Vector3.left;
+                dir = new Vector3(0, 270, 0);
             }
         }
 
@@ -131,10 +172,28 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
+        pushTween = interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess)
+            .OnUpdate(() =>
+            {
+                interactiveObj.StopVelocity();
 
-        StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
-        interactiedObj.isPushed = false;
+                pushStartPos = startPos;
+                isMoving = true;
+                
+            })
+            .OnComplete(() =>
+            {
+                StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
+                interactiedObj.isPushed = false;
+                
+                if (interactiveObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+                {
+                    interact.objPushStartPos = Vector3.zero;
+                    pushStartPos = Vector3.zero;
+                }
+
+                isMoving = false;
+            });
     }
 
     IEnumerator UnableMoveDelay(Object interactiveObj ,Object interactiedObj)
@@ -149,5 +208,31 @@ public class PullPushObject : MonoBehaviour
 
         interactiedObj.MoveUnAbleObject();
         interactiveObj.GetComponent<PlayerMovement>().isPush = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isMoving)
+        {
+            if (collision.gameObject.CompareTag("PushReset"))
+            {
+                pushTween.Kill();
+                gameObject.transform.position = pushStartPos;
+
+                Object playerObj = GameObject.Find("Player").GetComponent<Object>();
+                Object thisObj = GetComponent<Object>();
+
+                StartCoroutine(UnableMoveDelay(playerObj, thisObj));
+                thisObj.isPushed = false;
+
+                if (playerObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+                {
+                    interact.objPushStartPos = Vector3.zero;
+                    pushStartPos = Vector3.zero;
+                }
+
+                isMoving = false;
+            }
+        }
     }
 }
