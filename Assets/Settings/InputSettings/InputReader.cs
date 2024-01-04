@@ -30,8 +30,8 @@ public class InputReader : ScriptableObject, Controls.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            JumpEvent?.Invoke();
+        //if (context.performed)
+        //    JumpEvent?.Invoke();
     }
 
     public void OnMovement(InputAction.CallbackContext context)

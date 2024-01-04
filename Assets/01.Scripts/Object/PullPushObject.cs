@@ -21,21 +21,31 @@ public class PullPushObject : MonoBehaviour
     {
         interactiedObj.MoveAbleObject();
 
-        if (Vector3.Distance(objStartPos, interactiedObj.transform.position) >= _pullDistance)
+        bool isReset = false;
+        if (Input.GetKeyDown(KeyCode.T))
         {
+            interactiedObj.transform.position = objStartPos;
+            isReset = true;
+        }
+
+        if (Vector3.Distance(objStartPos, interactiedObj.transform.position) >= _pullDistance || isReset)
+        {
+
             interactiedObj.MoveUnAbleObject();
 
             if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement player))
             {
-                player.isPull = false;
-                player.isStop = false;
 
                 if (player.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
                 {
                     interact.objPullStartPos = Vector3.zero;
                     interact.playerPullStartPos = Vector3.zero;
-                    interact.isStopPull = true;
+                    
+                    interact.isPulling = false;
                 }
+
+                player.isPull = false;
+                player.isStop = false;
             }
 
             return;
@@ -79,9 +89,6 @@ public class PullPushObject : MonoBehaviour
         
         pos.y = 0;
         
-        Debug.Log(objOffset);
-        Debug.Log(pos);
-
         interactiedObj.transform.position = pos + interactiedObj._pullOffset;
 
         interactiedObj.StopVelocity();
