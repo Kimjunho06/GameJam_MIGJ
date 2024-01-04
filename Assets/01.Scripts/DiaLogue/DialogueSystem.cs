@@ -11,21 +11,14 @@ public class DialogueSystem : MonoBehaviour
 {
     public TextMeshProUGUI txtName;
     public TextMeshProUGUI txtSentence;
-    public Button playerDialogue;
-    public Button inforDialogue;
-    public Vector3 dialogueVec;
+    public Button dialogue;
     private bool isTyping = false;
     private bool isSecond = false;
+    public bool isEnd = false;
 
     Queue<string> sentences = new Queue<string>();
     private string currentSentence;
-
     Coroutine typingCo;
-
-    private void Awake()
-    {
-        dialogueVec = playerDialogue.transform.position;
-    }
 
     private void Start()
     {
@@ -95,12 +88,13 @@ public class DialogueSystem : MonoBehaviour
 
     private void StartLog()
     {
-        playerDialogue.transform.DOMoveY(240, 1.5f, false);
+        dialogue.transform.DOMoveY(240, 1.5f, false);
     }
 
     private void EndLog()
     {
         txtSentence.text = string.Empty;
-        playerDialogue.transform.DOMoveY(-800, 1.5f, false);
+        dialogue.transform.DOMoveY(-800, 1.5f, false);
+        isEnd = true;
     }
 }
