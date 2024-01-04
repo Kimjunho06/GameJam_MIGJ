@@ -50,7 +50,7 @@ public class Object : MonoBehaviour
     /// <param name="interactiedObj">¸Â´Â ¾Ö</param>
     public bool IsMessLarge(Object interactiveObj, Object interactiedObj)
     {
-        if (interactiveObj.mess > interactiedObj.mess)
+        if (interactiveObj.mess >= interactiedObj.mess)
             return true;
 
         return false;
