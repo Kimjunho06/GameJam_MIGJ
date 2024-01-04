@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CleanAreaH : MonoBehaviour
 {
@@ -9,6 +11,10 @@ public class CleanAreaH : MonoBehaviour
     [SerializeField] private List<GameObject> objects;
     
     private int cnt;
+
+    [SerializeField] private Image objImg;
+    [SerializeField] private Sprite objSprite;
+    [SerializeField] private TextMeshProUGUI objCntTxt;
 
     public bool isClear;
 
@@ -20,12 +26,16 @@ public class CleanAreaH : MonoBehaviour
         {
             Debug.LogError("Not Enough Objects");
         }
+
+        objImg.sprite = objSprite;
     }
 
     private void Update()
     {
         if (maxCnt == cnt)
             isClear = true;
+
+        objCntTxt.SetText($"{cnt} / {maxCnt}");
     }
 
     private void OnTriggerEnter(Collider other)
