@@ -35,6 +35,16 @@ public class PlayerInteract : MonoBehaviour
         PushObject();
         LeverObject();
 
+        if (interactableObj != null)
+        {
+            if (!interactableObj.gameObject.activeSelf)
+            {
+                playerMovement.isPush = false;
+                playerMovement.isPull = false;
+                interactableObj = null;
+            }
+        }
+
         //AirHangObject();
     }
 
@@ -51,6 +61,7 @@ public class PlayerInteract : MonoBehaviour
             if (isStopPull)
             {
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+                isStopPull = false;
                 return;
             }
 
