@@ -156,7 +156,8 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (obj.TryGetComponent<Object>(out Object ObjMess))
                 {
-                    playerObj.mess -= ObjMess.mess;
+                    if (!obj.moveMentObject.isLever)
+                        playerObj.mess -= ObjMess.mess;
                 }
                 obj.moveMentObject.isLever = true;
             }
