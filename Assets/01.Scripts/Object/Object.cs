@@ -38,10 +38,6 @@ public class Object : MonoBehaviour
     {
         if (TryGetComponent<PlayerMovement>(out PlayerMovement Playercheck))
             return;
-        
-        if (TryGetComponent<LeverObject>(out LeverObject Levercheck))
-            return;
-
 
         MoveUnAbleObject();
     }
