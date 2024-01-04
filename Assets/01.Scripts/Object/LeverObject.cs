@@ -7,12 +7,20 @@ public class LeverObject : MonoBehaviour
     public MoveMentObject moveMentObject;
     public GameObject pivot;
 
+    public GameObject door;
+
     private void Update()
     {
         if (moveMentObject.isLever)
-            pivot.transform.rotation = Quaternion.Euler(90, 0, 0);
+        {
+            door.SetActive(false);
+            pivot.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        }
         else
-            pivot.transform.rotation = Quaternion.Euler(0, 0, 0);
+        {
+            door.SetActive(true);
+            pivot.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
 }

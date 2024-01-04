@@ -10,6 +10,8 @@ public class CleanAreaH : MonoBehaviour
     
     private int cnt;
 
+    public bool isClear;
+
     private void Start()
     {
         cnt = 0;
@@ -18,6 +20,12 @@ public class CleanAreaH : MonoBehaviour
         {
             Debug.LogError("Not Enough Objects");
         }
+    }
+
+    private void Update()
+    {
+        if (maxCnt == cnt)
+            isClear = true;
     }
 
     private void OnTriggerEnter(Collider other)

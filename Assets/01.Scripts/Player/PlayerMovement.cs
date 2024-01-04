@@ -10,12 +10,15 @@ using UnityEngine;
 public class PlayerMovement : Object
 {
     [SerializeField] private float _moveSpeed = 3f;
+    public float MoveSpeed => _moveSpeed;
     [SerializeField] private float _rotateSpeed = 3f;
     [SerializeField] private float _jumpForce = 3f;
 
     [SerializeField] private float _deadPos = -5f;
 
     [SerializeField] private InputReader _inputReader;
+    public InputReader InputReader => _inputReader;
+
     [SerializeField] private CinemachineFreeLook _playerCam;
 
     public PlayerAnimation _playerAnimatior;
@@ -82,6 +85,11 @@ public class PlayerMovement : Object
 
     private void PlayerMove()
     {
+        if (isPush)
+        {
+            return;
+        }
+
         if (isPull)
         {
             if (_inputReader.InputPos.y > 0 || _inputReader.InputPos.x != 0)

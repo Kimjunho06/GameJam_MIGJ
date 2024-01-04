@@ -10,6 +10,8 @@ public class CleanArea : MonoBehaviour
     
     private int cnt;
 
+    public bool isClear;
+
     private void Start()
     {
         cnt = 0;
@@ -26,6 +28,12 @@ public class CleanArea : MonoBehaviour
 
         objects[cnt].SetActive(true);
         cnt++;
+    }
+
+    private void Update()
+    {
+        if (cnt == maxCnt + 1)
+            isClear = true;
     }
 
     private void OnTriggerEnter(Collider other)

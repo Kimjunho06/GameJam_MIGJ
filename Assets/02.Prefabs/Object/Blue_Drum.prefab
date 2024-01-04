@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 358307755011354093}
   - component: {fileID: 1002383992531856388}
   - component: {fileID: 7558613120882186530}
+  - component: {fileID: 419661707288723642}
   m_Layer: 0
   m_Name: Blue_Drum
   m_TagString: Untagged
@@ -122,6 +123,8 @@ MonoBehaviour:
     m_Bits: 0
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 1.3, y: 1.3, z: 1.3}
+  rb: {fileID: 1002383992531856388}
   isPushed: 0
   _objectType: 0
 --- !u!54 &1002383992531856388
@@ -163,3 +166,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c17f06c9835dd4288b3ddbddb5f0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pullDistance: 0
+  _moveDist: 0
+  _moveTime: 0
+--- !u!65 &419661707288723642
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400092647939237456}
+  m_Material: {fileID: 13400000, guid: 55e586a827cd94e4ab3a539592d2e4fe, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: 0.75, z: 0}

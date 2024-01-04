@@ -22,8 +22,9 @@ public class Object : MonoBehaviour
 
     [SerializeField] protected float _gravity = -9.8f;
     public Vector3 _pullOffset;
+    public Vector3 _arrowOffset;
 
-    protected Rigidbody rb;
+    public Rigidbody rb;
 
     public bool isPushed;
 
@@ -38,10 +39,6 @@ public class Object : MonoBehaviour
     {
         if (TryGetComponent<PlayerMovement>(out PlayerMovement Playercheck))
             return;
-        
-        if (TryGetComponent<LeverObject>(out LeverObject Levercheck))
-            return;
-
 
         MoveUnAbleObject();
     }
@@ -53,7 +50,7 @@ public class Object : MonoBehaviour
     /// <param name="interactiedObj">¸Â´Â ¾Ö</param>
     public bool IsMessLarge(Object interactiveObj, Object interactiedObj)
     {
-        if (interactiveObj.mess > interactiedObj.mess)
+        if (interactiveObj.mess >= interactiedObj.mess)
             return true;
 
         return false;
