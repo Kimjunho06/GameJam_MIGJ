@@ -183,6 +183,18 @@ public class PullPushObject : MonoBehaviour
             })
             .OnComplete(() =>
             {
+                if (!interactiedObj.gameObject.activeSelf)
+                {
+                    if (interactiveObj.TryGetComponent<PlayerInteract>(out PlayerInteract interactd))
+                    {
+                        interactd.objPushStartPos = Vector3.zero;
+                        pushStartPos = Vector3.zero;
+                    }
+
+                    isMoving = false;
+                    return;
+                }
+
                 StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
                 interactiedObj.isPushed = false;
                 
