@@ -64,6 +64,7 @@ public class MoveMentObject : MonoBehaviour
         if (other.gameObject == _point1)
         {
             isLever = false;
+            isCheck = false;
         }
         
         if (other.gameObject == _point2)
