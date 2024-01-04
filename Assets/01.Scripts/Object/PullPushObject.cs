@@ -1,10 +1,16 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PullPushObject : MonoBehaviour
 {
     [SerializeField] private float _pullDistance;
+
+    [SerializeField] private float _moveDist;
+    [SerializeField] private float _moveTime;
+
     Rigidbody rb;
 
     private void Awake()
@@ -12,24 +18,22 @@ public class PullPushObject : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void PullObject(Object interactiveObj, Object interactiedObj, Vector3 startPos)
+    public void PullObject(Object interactiveObj, Object interactiedObj, Vector3 playerStartPos, Vector3 objStartPos)
     {
         interactiedObj.MoveAbleObject();
 
-        if (Vector3.Distance(startPos, interactiedObj.transform.position) >= _pullDistance)
+        bool isReset = false;
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            interactiedObj.MoveUnAbleObject();
+            interactiedObj.transform.position = objStartPos;
+            isReset = true;
+        }
 
-            if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+        if (Vector3.Distance(objStartPos, interactiedObj.transform.position) >= _pullDistance || isReset)
+        {
+            if (interactiveObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
             {
-                player.isPull = false;
-                player.isStop = false;
-
-                if (player.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
-                {
-                    interact.pullStartPos = Vector3.zero;
-                    interact.isStopPull = true;
-                }
+                interact.isPulling = false;
             }
 
             return;
@@ -43,12 +47,12 @@ public class PullPushObject : MonoBehaviour
             if (dir.x > 0)
             {
                 dir = new Vector3(0, 90, 0);
-                objectPos += Vector3.right;
+                //objectPos += Vector3.right;
             }
             else
             {
                 dir = new Vector3(0, 270, 0);
-                objectPos += Vector3.left;
+                //objectPos += Vector3.left;
             }
         }
         else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
@@ -56,24 +60,24 @@ public class PullPushObject : MonoBehaviour
             if (dir.z > 0)
             {
                 dir = new Vector3(0, 0, 0);
-                objectPos += Vector3.forward;
+                //objectPos += Vector3.forward;
             }
             else
             {
                 dir = new Vector3(0, 180, 0);
-                objectPos += Vector3.back;
+                //objectPos += Vector3.back;
             }
         }
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement input))
-        {
-            Vector3 inputPos = input.InputReader.InputPos;
-            //Vector3 pos = new Vector3(objectPos.x + inputPos.x, objectPos.y, objectPos.z + inputPos.z);
-
-            //transform.position = pos;// + interactiedObj._pullOffset;
-        }
+        //transform.position = objectPos + interactiedObj._pullOffset;
+        Vector3 objOffset = objStartPos - playerStartPos;
+        Vector3 pos = objectPos + objOffset;
+        
+        pos.y = 0;
+        
+        interactiedObj.transform.position = pos + interactiedObj._pullOffset;
 
         interactiedObj.StopVelocity();
     }
@@ -120,9 +124,14 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.mess -= interactiedObj.mess;
 
-        rb.AddForce(pos * interactiedObj.mess, ForceMode.Impulse);
-        
+        //rb.AddForce(pos * interactiedObj.mess, ForceMode.Impulse);
+
+        Vector3 movePos = interactiedObj.transform.position;
+        movePos += pos * _moveDist;
+
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
+
+        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
 
         StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
         interactiedObj.isPushed = false;
@@ -135,8 +144,6 @@ public class PullPushObject : MonoBehaviour
 
         while (new Vector3((int)rb.velocity.x, (int)rb.velocity.y, (int)rb.velocity.z)!= Vector3.zero)
         {
-            Debug.Log("stay");
-            Debug.Log(rb.velocity);
             yield return null;
         }
 

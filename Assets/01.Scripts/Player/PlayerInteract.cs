@@ -7,7 +7,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
-    [SerializeField] private Vector3 _arrowOffset;
     //[SerializeField] private Transform hangCheckPos;
 
     Object interactableObj = null;
@@ -15,9 +14,12 @@ public class PlayerInteract : MonoBehaviour
     Object playerObj;
     PlayerMovement playerMovement;
 
-    public Vector3 pullStartPos = Vector3.zero;
+    public Vector3 objPullStartPos = Vector3.zero;
+    public Vector3 playerPullStartPos = Vector3.zero;
 
     public bool isStopPull;
+
+    public bool isPulling;
 
     private void Awake()
     {
@@ -35,12 +37,23 @@ public class PlayerInteract : MonoBehaviour
         PushObject();
         LeverObject();
 
+        if (interactableObj != null)
+        {
+            if (!interactableObj.gameObject.activeSelf)
+            {
+                isPulling = false;
+                playerMovement.isPush = false;
+
+                interactableObj = null;
+            }
+        }
+
         //AirHangObject();
     }
 
     private void PullObject()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (interactableObj == null)
                 return;
@@ -48,42 +61,51 @@ public class PlayerInteract : MonoBehaviour
                 return;
             if (!playerMovement.IsGround())
                 return;
-            if (isStopPull)
-            {
-                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
-                return;
-            }
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
-                if (!playerMovement.isStop)
-                {
-                    playerObj.StopVelocity();
-                    playerMovement.isStop = true;
-                }
-
-                if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
-                {
-                    playerObj.mess -= interactableObj.mess;
-                    pullStartPos = interactableObj.transform.position;
-                }
-
-                obj.PullObject(playerObj, interactableObj, pullStartPos); // 당기기
-
-                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
+                isPulling = true;
             }
         }
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            if (interactableObj == null)
-                return;
 
-            isStopPull = false;
-            interactableObj.MoveUnAbleObject();
-            playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
-            playerMovement.isStop = false;
-            pullStartPos = Vector3.zero;
+        if (isPulling)
+        {
+            if (!playerMovement.isStop)
+            {
+                playerObj.StopVelocity();
+                playerMovement.isStop = true;
+            }
+
+            if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
+            {
+                playerObj.mess -= interactableObj.mess;
+                objPullStartPos = interactableObj.transform.position;
+                playerPullStartPos = playerObj.transform.position;
+            }
+
+            playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
+
+            if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
+                obj.PullObject(playerObj, interactableObj, playerPullStartPos, objPullStartPos); // 당기기
+
         }
+        else
+        {
+            if (playerMovement.isPull)  
+                interactableObj.MoveUnAbleObject();
+            
+            if (playerMovement.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+            {
+                interact.objPullStartPos = Vector3.zero;
+                interact.playerPullStartPos = Vector3.zero;
+
+                interact.isPulling = false;
+            }
+
+            playerMovement.isPull = false;
+            playerMovement.isStop = false;
+        }
+        
     }
 
     private void PushObject()
@@ -186,6 +208,7 @@ public class PlayerInteract : MonoBehaviour
     private void ViewArrow()
     {
         GameObject arrow = GameManager.Instance._pushDirectionArrow;
+        arrow.SetActive(interactableObj != null);
         if (interactableObj == null)
             return;
         if (playerObj == null)
@@ -194,7 +217,6 @@ public class PlayerInteract : MonoBehaviour
         if (interactableObj.TryGetComponent<LeverObject>(out LeverObject leverCheck))
             return;
 
-        arrow.SetActive(interactableObj != null);
 
         Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
         Vector3 pos = interactableObj.transform.position;
@@ -204,12 +226,12 @@ public class PlayerInteract : MonoBehaviour
             if (dir.x > 0)
             {
                 dir = new Vector3(0, 90, 0);
-                pos += Vector3.right;
+                //pos += Vector3.right;
             }
             else
             {
                 dir = new Vector3(0, 270, 0);
-                pos += Vector3.left;
+                //pos += Vector3.left;
             }
            
         }
@@ -218,17 +240,17 @@ public class PlayerInteract : MonoBehaviour
             if (dir.z > 0)
             {
                 dir = new Vector3(0, 0, 0);
-                pos += Vector3.forward;
+                //pos += Vector3.forward;
             }
             else
             {
                 dir = new Vector3(0, 180, 0);
-                pos += Vector3.back;
+                //pos += Vector3.back;
             }
         }
         dir.x = 90;
 
-        arrow.transform.position = pos + _arrowOffset;
+        arrow.transform.position = pos + interactableObj._arrowOffset;
         arrow.transform.rotation = Quaternion.Euler(dir);
     }
 
@@ -237,20 +259,21 @@ public class PlayerInteract : MonoBehaviour
         if (playerMovement.isPull) return;
         if (playerMovement.isPush) return;
 
-        float maxDist = _radius + 1;
+        float maxDist = 100;
         bool isFindObj = false;
         
         Collider[] findObj = Physics.OverlapSphere(transform.position + _findObjOffset, _radius);
 
         foreach (var obj in findObj)
-        {
+        { 
             if (obj.TryGetComponent(out Object findInteractObj))
-            {
+            { 
                 if (obj.gameObject == this.gameObject) continue;
+                 
                 float dist = Mathf.Abs(Vector3.Distance(transform.position, findInteractObj.transform.position));
-
+                 
                 if (dist < maxDist)
-                {
+                { 
                     maxDist = dist;
                     interactableObj = findInteractObj;
                     isFindObj = true;
@@ -263,7 +286,10 @@ public class PlayerInteract : MonoBehaviour
 
         // 범위 나갔을 때 안에 저장된 오브젝트 초기화.
         if (!isFindObj)
+        { 
             interactableObj = null;
+        }
+
     }
 
     /*private void FindHangableObject()
