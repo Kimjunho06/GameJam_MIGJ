@@ -1404,6 +1404,7 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0.5, z: 0}
+  _arrowOffset: {x: 0, y: 0.5, z: 0}
   rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
@@ -1764,6 +1765,7 @@ MonoBehaviour:
     m_Bits: 0
   _gravity: 0
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
@@ -2515,7 +2517,7 @@ GameObject:
   - component: {fileID: 1207022329}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: PushReset
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2540,6 +2542,7 @@ MonoBehaviour:
     m_Bits: 0
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   isPushed: 0
   _objectType: 1
@@ -3671,6 +3674,7 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
@@ -3706,6 +3710,7 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -10
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
@@ -3762,10 +3767,11 @@ MonoBehaviour:
   _radius: 1
   _hangCheckDist: 5
   _findObjOffset: {x: 0, y: 1, z: 0}
-  _arrowOffset: {x: 0, y: 0, z: 0}
   objPullStartPos: {x: 0, y: 0, z: 0}
+  objPushStartPos: {x: 0, y: 0, z: 0}
   playerPullStartPos: {x: 0, y: 0, z: 0}
   isStopPull: 0
+  isPulling: 0
 --- !u!1 &136328866866491424
 GameObject:
   m_ObjectHideFlags: 0

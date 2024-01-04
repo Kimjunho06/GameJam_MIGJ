@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -118,6 +119,20 @@ public class PlayerInteract : MonoBehaviour
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
                 return;
 
+            Bounds objBound = new Bounds();
+            if (interactableObj.TryGetComponent<Collider>(out Collider collider))
+                objBound = collider.bounds;
+            else
+                Debug.LogError("Not Found collider");
+
+            if (playerObj.transform.position.x > objBound.max.x)
+                if (playerObj.transform.position.z < objBound.min.z || playerObj.transform.position.z > objBound.max.z)
+                    return;
+
+            if (playerObj.transform.position.x < objBound.min.x)
+                if (playerObj.transform.position.z < objBound.min.z || playerObj.transform.position.z > objBound.max.z)
+                    return;
+
             objPushStartPos = interactableObj.transform.position;
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
@@ -141,7 +156,8 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (obj.TryGetComponent<Object>(out Object ObjMess))
                 {
-                    playerObj.mess -= ObjMess.mess;
+                    if (!obj.moveMentObject.isLever)
+                        playerObj.mess -= ObjMess.mess;
                 }
                 obj.moveMentObject.isLever = true;
             }
@@ -221,34 +237,80 @@ public class PlayerInteract : MonoBehaviour
             return;
 
 
-        Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
-        Vector3 pos = interactableObj.transform.position;
+        //Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
+        //Vector3 pos = interactableObj.transform.position;
 
-        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        //if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        //{
+        //    if (dir.x > 0)
+        //    {
+        //        dir = new Vector3(0, 90, 0);
+        //        //pos += Vector3.right;
+        //    }
+        //    else
+        //    {
+        //        dir = new Vector3(0, 270, 0);
+        //        //pos += Vector3.left;
+        //    }
+
+        //}
+        //else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
+        //{
+        //    if (dir.z > 0)
+        //    {
+        //        dir = new Vector3(0, 0, 0);
+        //        //pos += Vector3.forward;
+        //    }
+        //    else
+        //    {
+        //        dir = new Vector3(0, 180, 0);
+        //        //pos += Vector3.back;
+        //    }
+        //}
+        //dir.x = 90;
+
+        Vector3 pos = interactableObj.transform.position;
+        Vector3 dir = Vector3.zero;
+
+        Bounds objBound = new Bounds();
+        if (interactableObj.TryGetComponent<Collider>(out Collider collider))
+            objBound = collider.bounds;
+        else
+            Debug.LogError("Not Found collider");
+
+        if (playerObj.transform.position.x > objBound.max.x)
+            if (playerObj.transform.position.z < objBound.min.z || playerObj.transform.position.z > objBound.max.z)
+                arrow.SetActive(false);
+
+        if (playerObj.transform.position.x < objBound.min.x)
+            if (playerObj.transform.position.z < objBound.min.z || playerObj.transform.position.z > objBound.max.z)
+                arrow.SetActive(false);
+
+
+        if (playerObj.transform.position.x > objBound.min.x && playerObj.transform.position.x < objBound.max.x) // »óÇÏ
         {
-            if (dir.x > 0)
+            if (playerObj.transform.position.z < objBound.min.z)
             {
-                dir = new Vector3(0, 90, 0);
-                //pos += Vector3.right;
-            }
-            else
-            {
-                dir = new Vector3(0, 270, 0);
-                //pos += Vector3.left;
-            }
-           
-        }
-        else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
-        {
-            if (dir.z > 0)
-            {
-                dir = new Vector3(0, 0, 0);
                 //pos += Vector3.forward;
+                dir = new Vector3(0, 0, 0);
             }
-            else
+            else if (playerObj.transform.position.z > objBound.max.z)
             {
-                dir = new Vector3(0, 180, 0);
                 //pos += Vector3.back;
+                dir = new Vector3(0, 180, 0);
+            }
+        }
+        else if (playerObj.transform.position.z > objBound.min.z && playerObj.transform.position.z < objBound.max.z) // ÁÂ¿ì
+        {
+            if (playerObj.transform.position.x < objBound.min.x)
+            {
+                //pos += Vector3.right;
+                dir = new Vector3(0, 90, 0);
+            }
+            else if (playerObj.transform.position.x > objBound.max.x)
+            {
+               // pos += Vector3.left;
+                dir = new Vector3(0, 270, 0);
             }
         }
         dir.x = 90;

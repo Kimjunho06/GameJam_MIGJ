@@ -96,34 +96,70 @@ public class PullPushObject : MonoBehaviour
         if (cmp == null)
             interactiedObj.MoveAbleObject();
 
-        Vector3 pos = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
 
+        //Vector3 pos = (interactiedObj.transform.position - interactiveObj.transform.position).normalized;
+        //Vector3 dir = Vector3.zero;
+
+        //if (Mathf.Abs(pos.x) > Mathf.Abs(pos.z))
+        //{
+        //    if (pos.x > 0)
+        //    {
+        //        pos = Vector3.right;
+        //        dir = new Vector3(0, 90, 0);
+        //    }
+        //    else
+        //    {
+        //        pos = Vector3.left;
+        //        dir = new Vector3(0, 270, 0);
+        //    }
+        //}
+        //else if (Mathf.Abs(pos.x) <= Mathf.Abs(pos.z))
+        //{
+        //    if (pos.z > 0)
+        //    {
+        //        pos = Vector3.forward;
+        //        dir = new Vector3(0, 0, 0);
+        //    }
+        //    else
+        //    {
+        //        pos = Vector3.back;
+        //        dir = new Vector3(0, 180, 0);
+        //    }
+        //}
+
+        Vector3 pos = Vector3.zero;
         Vector3 dir = Vector3.zero;
 
-        if (Mathf.Abs(pos.x) > Mathf.Abs(pos.z))
+        Bounds objBound = new Bounds();
+        if (interactiedObj.TryGetComponent<Collider>(out Collider collider))
+            objBound = collider.bounds;
+        else
+            Debug.LogError("Not Found Collider");
+
+        if (interactiveObj.transform.position.x > objBound.min.x && interactiveObj.transform.position.x < objBound.max.x) // »óÇÏ
         {
-            if (pos.x > 0)
-            {
-                pos = Vector3.right;
-                dir = new Vector3(0, 90, 0);
-            }
-            else
-            {
-                pos = Vector3.left;
-                dir = new Vector3(0, 270, 0);
-            }
-        }
-        else if (Mathf.Abs(pos.x) <= Mathf.Abs(pos.z))
-        {
-            if (pos.z > 0)
+            if (interactiveObj.transform.position.z < objBound.min.z)
             {
                 pos = Vector3.forward;
                 dir = new Vector3(0, 0, 0);
             }
-            else
+            else if (interactiveObj.transform.position.z > objBound.max.z)
             {
                 pos = Vector3.back;
                 dir = new Vector3(0, 180, 0);
+            }
+        }
+        else if (interactiveObj.transform.position.z > objBound.min.z && interactiveObj.transform.position.z < objBound.max.z) // ÁÂ¿ì
+        {
+            if (interactiveObj.transform.position.x < objBound.min.x)
+            {
+                pos = Vector3.right;
+                dir = new Vector3(0, 90, 0);
+            }
+            else if (interactiveObj.transform.position.x > objBound.max.x)
+            {
+                pos = Vector3.left;
+                dir = new Vector3(0, 270, 0);
             }
         }
 
