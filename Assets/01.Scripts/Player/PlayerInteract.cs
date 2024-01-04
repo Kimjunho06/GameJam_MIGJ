@@ -15,7 +15,8 @@ public class PlayerInteract : MonoBehaviour
     Object playerObj;
     PlayerMovement playerMovement;
 
-    public Vector3 pullStartPos = Vector3.zero;
+    public Vector3 objPullStartPos = Vector3.zero;
+    public Vector3 playerPullStartPos = Vector3.zero;
 
     public bool isStopPull;
 
@@ -65,10 +66,11 @@ public class PlayerInteract : MonoBehaviour
                 if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
                 {
                     playerObj.mess -= interactableObj.mess;
-                    pullStartPos = interactableObj.transform.position;
+                    objPullStartPos = interactableObj.transform.position;
+                    playerPullStartPos = playerObj.transform.position;
                 }
 
-                obj.PullObject(playerObj, interactableObj, pullStartPos); // 당기기
+                obj.PullObject(playerObj, interactableObj, playerPullStartPos, objPullStartPos); // 당기기
 
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
             }
@@ -82,7 +84,8 @@ public class PlayerInteract : MonoBehaviour
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
             playerMovement.isStop = false;
-            pullStartPos = Vector3.zero;
+            objPullStartPos = Vector3.zero;
+            playerPullStartPos = Vector3.zero;
         }
     }
 
@@ -186,6 +189,7 @@ public class PlayerInteract : MonoBehaviour
     private void ViewArrow()
     {
         GameObject arrow = GameManager.Instance._pushDirectionArrow;
+        arrow.SetActive(interactableObj != null);
         if (interactableObj == null)
             return;
         if (playerObj == null)
@@ -194,7 +198,6 @@ public class PlayerInteract : MonoBehaviour
         if (interactableObj.TryGetComponent<LeverObject>(out LeverObject leverCheck))
             return;
 
-        arrow.SetActive(interactableObj != null);
 
         Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
         Vector3 pos = interactableObj.transform.position;

@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6b8f94fb02d6a4aab0f7e431e2ccb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mess: 0
+  mess: 1
   _groundChecker: {fileID: 397150484}
   _groundCheckDistance: 0.51
   _whatIsGround:
@@ -1444,7 +1444,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
@@ -1462,6 +1462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pullDistance: 3
+  _moveDist: 2
+  _moveTime: 1
 --- !u!1 &539900925
 GameObject:
   m_ObjectHideFlags: 0
@@ -3761,7 +3763,8 @@ MonoBehaviour:
   _hangCheckDist: 5
   _findObjOffset: {x: 0, y: 1, z: 0}
   _arrowOffset: {x: 0, y: 0, z: 0}
-  pullStartPos: {x: 0, y: 0, z: 0}
+  objPullStartPos: {x: 0, y: 0, z: 0}
+  playerPullStartPos: {x: 0, y: 0, z: 0}
   isStopPull: 0
 --- !u!1 &136328866866491424
 GameObject:
