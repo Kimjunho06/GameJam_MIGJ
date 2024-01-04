@@ -93,8 +93,11 @@ public class PlayerInteract : MonoBehaviour
         }
         else
         {
-            if (playerMovement.isPull)  
-                interactableObj.MoveUnAbleObject();
+            if (interactableObj != null)
+            {
+                if (playerMovement.isPull)  
+                    interactableObj.MoveUnAbleObject();
+            }
             
             if (playerMovement.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
             {

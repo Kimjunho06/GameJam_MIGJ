@@ -33,23 +33,31 @@ public class StageController : MonoBehaviour
 
     public void StageClear()
     {
+        int cnt = 0;
         foreach(var check in cleanArea)
         {
-            if (!check.isClear)
-                return;
+            if (check.isClear)
+            {
+                cnt++;
+            }
 
-            NextStage();
+            if (cnt == cleanArea.Count)
+                NextStage();
         }
     }
     
     public void StageClearH()
     {
+        int cnt = 0;
         foreach (var check in cleanAreaH)
         {
-            if (!check.isClear)
-                return;
+            if (check.isClear)
+            {
+                cnt++;
+            }
 
-            NextStage();
+            if (cnt == cleanAreaH.Count)
+                NextStage();
         }
     }
 

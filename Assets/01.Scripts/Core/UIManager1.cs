@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class UIManager1 : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class UIManager1 : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeTime;
     [SerializeField] private Button startButton;
-    [SerializeField] private Button optionButton;
+    [SerializeField] private Button tutorialButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button restartButton;
 
@@ -37,23 +38,29 @@ public class UIManager1 : MonoBehaviour
 
         if(selectedButton == startButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
+            selectedButton = tutorialButton;
+        }
+        else if(selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
             selectedButton = exitButton;
         }
         if (selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
         {
-            selectedButton = startButton;
+            selectedButton = tutorialButton;
             if(startButton == null)
             {
                 selectedButton = restartButton;
             }
+        }
+        else if(selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = startButton;
         }
 
         if(selectedButton == restartButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedButton = exitButton;
         }
-        
-
     }
 
     public void OnClickStart()
@@ -67,23 +74,7 @@ public class UIManager1 : MonoBehaviour
         Invoke("ChangeMain", fadeTime);
     }
 
-    public void ChangeMain()
-    {
-        SceneManager.LoadScene("SampleSceneJiheon");
-    }
-
-    public void ChangeIntro()
-    {
-        SceneManager.LoadScene("IntroScene");
-    }
-
-    public void ChangeOption()
-    {
-        SceneManager.LoadScene("InGameOption");
-    }
-
-
-    public void OnClickOption()
+    public void OnClickTutorial()
     {
         _fadeImage.SetActive(true);
         if (isFaded == false)
@@ -92,7 +83,7 @@ public class UIManager1 : MonoBehaviour
             fadeImage.DOFade(1, fadeTime);
             isFaded = false;
         }
-        Invoke("ChangeOption", fadeTime);
+        Invoke("ChangeTutorial", fadeTime);
     }
 
     public void RealNewGame()
@@ -106,9 +97,19 @@ public class UIManager1 : MonoBehaviour
         Invoke("ChangeIntro", fadeTime);
     }
     
-    public void Restart()
+    public void ChangeMain()
+    {
+        SceneManager.LoadScene("Stage 1");
+    }
+
+    public void ChangeIntro()
     {
         SceneManager.LoadScene("IntroScene");
+    }
+
+    public void ChangeTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void RealExitGame()
