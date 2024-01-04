@@ -16,6 +16,8 @@ public class PlayerMovement : Object
     [SerializeField] private float _deadPos = -5f;
 
     [SerializeField] private InputReader _inputReader;
+    public InputReader InputReader => _inputReader;
+
     [SerializeField] private CinemachineFreeLook _playerCam;
 
     public PlayerAnimation _playerAnimatior;
