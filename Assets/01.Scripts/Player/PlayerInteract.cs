@@ -186,11 +186,15 @@ public class PlayerInteract : MonoBehaviour
     private void ViewArrow()
     {
         GameObject arrow = GameManager.Instance._pushDirectionArrow;
-        arrow.SetActive(interactableObj != null);
         if (interactableObj == null)
             return;
         if (playerObj == null)
             return;
+
+        if (interactableObj.TryGetComponent<LeverObject>(out LeverObject leverCheck))
+            return;
+
+        arrow.SetActive(interactableObj != null);
 
         Vector3 dir = (interactableObj.transform.position - playerObj.transform.position).normalized;
         Vector3 pos = interactableObj.transform.position;

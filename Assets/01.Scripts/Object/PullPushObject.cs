@@ -67,7 +67,14 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        transform.position = objectPos + interactiedObj._pullOffset;
+        if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement input))
+        {
+            Vector3 inputPos = input.InputReader.InputPos;
+            //Vector3 pos = new Vector3(objectPos.x + inputPos.x, objectPos.y, objectPos.z + inputPos.z);
+
+            //transform.position = pos;// + interactiedObj._pullOffset;
+        }
+
         interactiedObj.StopVelocity();
     }
 
