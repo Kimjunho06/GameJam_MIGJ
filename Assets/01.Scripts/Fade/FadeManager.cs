@@ -28,16 +28,6 @@ public class FadeManager : MonoBehaviour
         Invoke("OffFade", 1);
     }
 
-    private void FadeOut()
-    {
-        _fadeImage.SetActive(true);
-        if (isFaded == false)
-        {
-            isFaded = true;
-            fadeImage.DOFade(0, fadeTime).OnComplete(() => isFaded = false);
-        }
-        Invoke("OffFade", 1);
-    }
 
     private void OffFade()
     {
