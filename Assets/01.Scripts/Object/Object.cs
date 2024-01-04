@@ -22,6 +22,7 @@ public class Object : MonoBehaviour
 
     [SerializeField] protected float _gravity = -9.8f;
     public Vector3 _pullOffset;
+    public Vector3 _arrowOffset;
 
     public Rigidbody rb;
 

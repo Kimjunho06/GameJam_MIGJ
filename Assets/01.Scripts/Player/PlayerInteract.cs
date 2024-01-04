@@ -7,7 +7,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _hangCheckDist = 5f;
     [SerializeField] private Vector3 _findObjOffset;
-    [SerializeField] private Vector3 _arrowOffset;
     //[SerializeField] private Transform hangCheckPos;
 
     Object interactableObj = null;
@@ -207,12 +206,12 @@ public class PlayerInteract : MonoBehaviour
             if (dir.x > 0)
             {
                 dir = new Vector3(0, 90, 0);
-                pos += Vector3.right;
+                //pos += Vector3.right;
             }
             else
             {
                 dir = new Vector3(0, 270, 0);
-                pos += Vector3.left;
+                //pos += Vector3.left;
             }
            
         }
@@ -221,17 +220,17 @@ public class PlayerInteract : MonoBehaviour
             if (dir.z > 0)
             {
                 dir = new Vector3(0, 0, 0);
-                pos += Vector3.forward;
+                //pos += Vector3.forward;
             }
             else
             {
                 dir = new Vector3(0, 180, 0);
-                pos += Vector3.back;
+                //pos += Vector3.back;
             }
         }
         dir.x = 90;
 
-        arrow.transform.position = pos + _arrowOffset;
+        arrow.transform.position = pos + interactableObj._arrowOffset;
         arrow.transform.rotation = Quaternion.Euler(dir);
     }
 
@@ -240,20 +239,26 @@ public class PlayerInteract : MonoBehaviour
         if (playerMovement.isPull) return;
         if (playerMovement.isPush) return;
 
-        float maxDist = _radius + 1;
+        float maxDist = 100;
         bool isFindObj = false;
         
         Collider[] findObj = Physics.OverlapSphere(transform.position + _findObjOffset, _radius);
 
         foreach (var obj in findObj)
         {
+            Debug.Log("in Foreach");
             if (obj.TryGetComponent(out Object findInteractObj))
             {
+                Debug.Log("check component");
                 if (obj.gameObject == this.gameObject) continue;
+
+                Debug.Log("find Obj");
                 float dist = Mathf.Abs(Vector3.Distance(transform.position, findInteractObj.transform.position));
+                Debug.Log("find Obj dist : " + dist);
 
                 if (dist < maxDist)
                 {
+                    Debug.Log("SelectObj");
                     maxDist = dist;
                     interactableObj = findInteractObj;
                     isFindObj = true;
@@ -266,7 +271,11 @@ public class PlayerInteract : MonoBehaviour
 
         // 범위 나갔을 때 안에 저장된 오브젝트 초기화.
         if (!isFindObj)
+        {
+            Debug.Log("out Range Object, not Found in Range");
             interactableObj = null;
+        }
+
     }
 
     /*private void FindHangableObject()
