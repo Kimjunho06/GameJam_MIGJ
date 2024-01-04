@@ -23,7 +23,7 @@ public class Object : MonoBehaviour
     [SerializeField] protected float _gravity = -9.8f;
     public Vector3 _pullOffset;
 
-    protected Rigidbody rb;
+    public Rigidbody rb;
 
     public bool isPushed;
 
@@ -38,10 +38,6 @@ public class Object : MonoBehaviour
     {
         if (TryGetComponent<PlayerMovement>(out PlayerMovement Playercheck))
             return;
-        
-        if (TryGetComponent<LeverObject>(out LeverObject Levercheck))
-            return;
-
 
         MoveUnAbleObject();
     }

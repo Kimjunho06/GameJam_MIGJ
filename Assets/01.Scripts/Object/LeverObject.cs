@@ -10,9 +10,9 @@ public class LeverObject : MonoBehaviour
     private void Update()
     {
         if (moveMentObject.isLever)
-            pivot.transform.rotation = Quaternion.Euler(90, 0, 0);
+            pivot.transform.localRotation = Quaternion.Euler(90, 0, 0);
         else
-            pivot.transform.rotation = Quaternion.Euler(0, 0, 0);
+            pivot.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
 }
