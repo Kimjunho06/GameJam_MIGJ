@@ -31,10 +31,7 @@ public class UIManager : MonoBehaviour
     {
         selectedButton = restartButton;
     }
-    private void Start()
-    {
-        //selectedButton.Select();
-    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -149,7 +146,6 @@ public class UIManager : MonoBehaviour
     public void OnClickExit()
     {
         exitGamePanel.SetActive(true);
-        Debug.Log("d");
         var btn = exitGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
         btn.Select();
     }
