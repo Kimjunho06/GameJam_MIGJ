@@ -37,6 +37,7 @@ public class MessDisplay : MonoBehaviour
         messTxt.alignment = TextAlignmentOptions.Center;
         messTxt.enableWordWrapping = false;
         messTxt.name = "messTxt";
+        messTxt.rectTransform.localScale = new Vector3(-1, 1, 1);
 
         if (TryGetComponent<Object>(out Object obj))
             messTxt.text = $"{obj.mess.ToString("F1")}";

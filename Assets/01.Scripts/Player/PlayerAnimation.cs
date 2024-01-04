@@ -30,9 +30,9 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool(_airHangHash, value);
     }
     
-    public void PushAnimation(bool value)
+    public void PushAnimation()
     {
-        _animator.SetBool(_pushHash, value);
+        _animator.SetTrigger(_pushHash);
     }
 
 }

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float _radius = 5f;
@@ -16,6 +14,10 @@ public class PlayerInteract : MonoBehaviour
     //Object hangableObj = null;
     Object playerObj;
     PlayerMovement playerMovement;
+
+    public Vector3 pullStartPos = Vector3.zero;
+
+    public bool isStopPull;
 
     private void Awake()
     {
@@ -31,8 +33,7 @@ public class PlayerInteract : MonoBehaviour
 
         PullObject();
         PushObject();
-
-
+        LeverObject();
 
         //AirHangObject();
     }
@@ -47,6 +48,11 @@ public class PlayerInteract : MonoBehaviour
                 return;
             if (!playerMovement.IsGround())
                 return;
+            if (isStopPull)
+            {
+                playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
+                return;
+            }
 
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
@@ -56,7 +62,14 @@ public class PlayerInteract : MonoBehaviour
                     playerMovement.isStop = true;
                 }
 
-                obj.PullObject(playerObj, interactableObj); // 당기기
+                if (!playerObj.gameObject.GetComponent<PlayerMovement>().isPull)
+                {
+                    playerObj.mess -= interactableObj.mess;
+                    pullStartPos = interactableObj.transform.position;
+                }
+
+                obj.PullObject(playerObj, interactableObj, pullStartPos); // 당기기
+
                 playerObj.gameObject.GetComponent<PlayerMovement>().isPull = true;
             }
         }
@@ -65,9 +78,11 @@ public class PlayerInteract : MonoBehaviour
             if (interactableObj == null)
                 return;
 
+            isStopPull = false;
             interactableObj.MoveUnAbleObject();
             playerObj.gameObject.GetComponent<PlayerMovement>().isPull = false;
             playerMovement.isStop = false;
+            pullStartPos = Vector3.zero;
         }
     }
 
@@ -80,9 +95,30 @@ public class PlayerInteract : MonoBehaviour
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
                 return;
 
+            playerMovement._playerAnimatior.PushAnimation();
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
                 obj.PushObject(playerObj, interactableObj);
+            }
+        }
+    }
+
+    private void LeverObject()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (interactableObj == null)
+                return;
+            if (playerObj == null)
+                return;
+
+            if (interactableObj.TryGetComponent<LeverObject>(out LeverObject obj))
+            {
+                if (obj.TryGetComponent<Object>(out Object ObjMess))
+                {
+                    playerObj.mess -= ObjMess.mess;
+                }
+                obj.moveMentObject.isLever = true;
             }
         }
     }
