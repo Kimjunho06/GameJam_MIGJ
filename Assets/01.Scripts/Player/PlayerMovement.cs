@@ -10,6 +10,7 @@ using UnityEngine;
 public class PlayerMovement : Object
 {
     [SerializeField] private float _moveSpeed = 3f;
+    public float MoveSpeed => _moveSpeed;
     [SerializeField] private float _rotateSpeed = 3f;
     [SerializeField] private float _jumpForce = 3f;
 

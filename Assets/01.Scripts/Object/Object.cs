@@ -22,6 +22,7 @@ public class Object : MonoBehaviour
 
     [SerializeField] protected float _gravity = -9.8f;
     public Vector3 _pullOffset;
+    public Vector3 _arrowOffset;
 
     public Rigidbody rb;
 
@@ -49,7 +50,7 @@ public class Object : MonoBehaviour
     /// <param name="interactiedObj">¸Â´Â ¾Ö</param>
     public bool IsMessLarge(Object interactiveObj, Object interactiedObj)
     {
-        if (interactiveObj.mess > interactiedObj.mess)
+        if (interactiveObj.mess >= interactiedObj.mess)
             return true;
 
         return false;

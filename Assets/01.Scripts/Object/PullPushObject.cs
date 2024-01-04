@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine;
 public class PullPushObject : MonoBehaviour
 {
     [SerializeField] private float _pullDistance;
+
+    [SerializeField] private float _moveDist;
+    [SerializeField] private float _moveTime;
+
     Rigidbody rb;
 
     private void Awake()
@@ -12,24 +17,35 @@ public class PullPushObject : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void PullObject(Object interactiveObj, Object interactiedObj, Vector3 startPos)
+    public void PullObject(Object interactiveObj, Object interactiedObj, Vector3 playerStartPos, Vector3 objStartPos)
     {
         interactiedObj.MoveAbleObject();
 
-        if (Vector3.Distance(startPos, interactiedObj.transform.position) >= _pullDistance)
+        bool isReset = false;
+        if (Input.GetKeyDown(KeyCode.T))
         {
+            interactiedObj.transform.position = objStartPos;
+            isReset = true;
+        }
+
+        if (Vector3.Distance(objStartPos, interactiedObj.transform.position) >= _pullDistance || isReset)
+        {
+
             interactiedObj.MoveUnAbleObject();
 
             if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement player))
             {
-                player.isPull = false;
-                player.isStop = false;
 
                 if (player.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
                 {
-                    interact.pullStartPos = Vector3.zero;
-                    interact.isStopPull = true;
+                    interact.objPullStartPos = Vector3.zero;
+                    interact.playerPullStartPos = Vector3.zero;
+                    
+                    interact.isPulling = false;
                 }
+
+                player.isPull = false;
+                player.isStop = false;
             }
 
             return;
@@ -43,12 +59,12 @@ public class PullPushObject : MonoBehaviour
             if (dir.x > 0)
             {
                 dir = new Vector3(0, 90, 0);
-                objectPos += Vector3.right;
+                //objectPos += Vector3.right;
             }
             else
             {
                 dir = new Vector3(0, 270, 0);
-                objectPos += Vector3.left;
+                //objectPos += Vector3.left;
             }
         }
         else if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.z))
@@ -56,24 +72,24 @@ public class PullPushObject : MonoBehaviour
             if (dir.z > 0)
             {
                 dir = new Vector3(0, 0, 0);
-                objectPos += Vector3.forward;
+                //objectPos += Vector3.forward;
             }
             else
             {
                 dir = new Vector3(0, 180, 0);
-                objectPos += Vector3.back;
+                //objectPos += Vector3.back;
             }
         }
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement input))
-        {
-            Vector3 inputPos = input.InputReader.InputPos;
-            //Vector3 pos = new Vector3(objectPos.x + inputPos.x, objectPos.y, objectPos.z + inputPos.z);
-
-            //transform.position = pos;// + interactiedObj._pullOffset;
-        }
+        //transform.position = objectPos + interactiedObj._pullOffset;
+        Vector3 objOffset = objStartPos - playerStartPos;
+        Vector3 pos = objectPos + objOffset;
+        
+        pos.y = 0;
+        
+        interactiedObj.transform.position = pos + interactiedObj._pullOffset;
 
         interactiedObj.StopVelocity();
     }
@@ -120,7 +136,12 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.mess -= interactiedObj.mess;
 
-        rb.AddForce(pos * interactiedObj.mess, ForceMode.Impulse);
+        //rb.AddForce(pos * interactiedObj.mess, ForceMode.Impulse);
+
+        Vector3 movePos = interactiedObj.transform.position;
+        movePos += pos * _moveDist;
+
+        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
         
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
