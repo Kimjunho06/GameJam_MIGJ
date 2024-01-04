@@ -37,6 +37,17 @@ public class PlayerInteract : MonoBehaviour
         PushObject();
         LeverObject();
 
+        if (interactableObj != null)
+        {
+            if (!interactableObj.gameObject.activeSelf)
+            {
+                isPulling = false;
+                playerMovement.isPush = false;
+
+                interactableObj = null;
+            }
+        }
+
         //AirHangObject();
     }
 
@@ -77,6 +88,22 @@ public class PlayerInteract : MonoBehaviour
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
                 obj.PullObject(playerObj, interactableObj, playerPullStartPos, objPullStartPos); // 당기기
 
+        }
+        else
+        {
+            if (playerMovement.isPull)  
+                interactableObj.MoveUnAbleObject();
+            
+            if (playerMovement.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+            {
+                interact.objPullStartPos = Vector3.zero;
+                interact.playerPullStartPos = Vector3.zero;
+
+                interact.isPulling = false;
+            }
+
+            playerMovement.isPull = false;
+            playerMovement.isStop = false;
         }
         
     }
@@ -238,20 +265,15 @@ public class PlayerInteract : MonoBehaviour
         Collider[] findObj = Physics.OverlapSphere(transform.position + _findObjOffset, _radius);
 
         foreach (var obj in findObj)
-        {
-            Debug.Log("in Foreach");
+        { 
             if (obj.TryGetComponent(out Object findInteractObj))
-            {
-                Debug.Log("check component");
+            { 
                 if (obj.gameObject == this.gameObject) continue;
-
-                Debug.Log("find Obj");
+                 
                 float dist = Mathf.Abs(Vector3.Distance(transform.position, findInteractObj.transform.position));
-                Debug.Log("find Obj dist : " + dist);
-
+                 
                 if (dist < maxDist)
-                {
-                    Debug.Log("SelectObj");
+                { 
                     maxDist = dist;
                     interactableObj = findInteractObj;
                     isFindObj = true;
@@ -264,8 +286,7 @@ public class PlayerInteract : MonoBehaviour
 
         // 범위 나갔을 때 안에 저장된 오브젝트 초기화.
         if (!isFindObj)
-        {
-            Debug.Log("out Range Object, not Found in Range");
+        { 
             interactableObj = null;
         }
 

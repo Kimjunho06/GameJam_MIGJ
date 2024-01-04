@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PullPushObject : MonoBehaviour
@@ -30,22 +31,9 @@ public class PullPushObject : MonoBehaviour
 
         if (Vector3.Distance(objStartPos, interactiedObj.transform.position) >= _pullDistance || isReset)
         {
-
-            interactiedObj.MoveUnAbleObject();
-
-            if (interactiveObj.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+            if (interactiveObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
             {
-
-                if (player.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
-                {
-                    interact.objPullStartPos = Vector3.zero;
-                    interact.playerPullStartPos = Vector3.zero;
-                    
-                    interact.isPulling = false;
-                }
-
-                player.isPull = false;
-                player.isStop = false;
+                interact.isPulling = false;
             }
 
             return;
@@ -141,9 +129,9 @@ public class PullPushObject : MonoBehaviour
         Vector3 movePos = interactiedObj.transform.position;
         movePos += pos * _moveDist;
 
-        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
-        
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
+
+        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
 
         StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
         interactiedObj.isPushed = false;
@@ -156,8 +144,6 @@ public class PullPushObject : MonoBehaviour
 
         while (new Vector3((int)rb.velocity.x, (int)rb.velocity.y, (int)rb.velocity.z)!= Vector3.zero)
         {
-            Debug.Log("stay");
-            Debug.Log(rb.velocity);
             yield return null;
         }
 
