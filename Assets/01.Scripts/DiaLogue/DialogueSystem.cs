@@ -66,7 +66,11 @@ public class DialogueSystem : MonoBehaviour
 
     private void Update()
     {
-        if(isTyping == true && Input.GetMouseButtonDown(0) && isSecond) 
+        if(isTyping == true && Input.GetKeyDown(KeyCode.Space) && isSecond)
+        {
+            StartCoroutine(Skip());
+        }
+        if (isTyping == true && Input.GetMouseButtonDown(0) && isSecond) 
         {
             StartCoroutine(Skip());
         }
@@ -83,7 +87,6 @@ public class DialogueSystem : MonoBehaviour
             txtSentence.text += letter;
             yield return new WaitForSeconds(0.08f);
         }
-        
     }
 
     private void StartLog()

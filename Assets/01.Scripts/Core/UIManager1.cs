@@ -13,6 +13,7 @@ public class UIManager1 : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button exitButton;
+    [SerializeField] private Button restartButton;
 
     private bool isFaded = false;
 
@@ -20,7 +21,14 @@ public class UIManager1 : MonoBehaviour
 
     private void Awake()
     {
-        selectedButton = startButton;
+        if(startButton != null)
+        {
+            selectedButton = startButton;
+        }
+        else
+        {
+            selectedButton = restartButton;
+        }
     }
 
     private void Update()
@@ -34,7 +42,18 @@ public class UIManager1 : MonoBehaviour
         if (selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButton = startButton;
+            if(startButton == null)
+            {
+                selectedButton = restartButton;
+            }
         }
+
+        if(selectedButton == restartButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = exitButton;
+        }
+        
+
     }
 
     public void OnClickStart()
@@ -87,6 +106,11 @@ public class UIManager1 : MonoBehaviour
         Invoke("ChangeIntro", fadeTime);
     }
     
+    public void Restart()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
+
     public void RealExitGame()
     {
         Application.Quit();
