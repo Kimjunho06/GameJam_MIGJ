@@ -30,6 +30,12 @@ public class CleanArea : MonoBehaviour
         cnt++;
     }
 
+    private void Update()
+    {
+        if (cnt == maxCnt + 1)
+            isClear = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Object>(out Object obj))

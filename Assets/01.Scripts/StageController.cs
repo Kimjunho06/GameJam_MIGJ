@@ -14,10 +14,16 @@ public class StageController : MonoBehaviour
 
     private void Update()
     {
+        StageClear();
+        StageClearH();
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             ResetStage();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+            NextStage();
     }
 
     public void ResetStage()
