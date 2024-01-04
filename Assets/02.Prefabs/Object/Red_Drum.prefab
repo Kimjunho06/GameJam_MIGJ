@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2307974851712703782}
   - component: {fileID: 6948658705359276272}
   - component: {fileID: 8850037808464815086}
+  - component: {fileID: 4066781750867696184}
   m_Layer: 0
   m_Name: Red_Drum
   m_TagString: Untagged
@@ -122,6 +123,8 @@ MonoBehaviour:
     m_Bits: 0
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
+  rb: {fileID: 6948658705359276272}
   isPushed: 0
   _objectType: 0
 --- !u!54 &6948658705359276272
@@ -163,3 +166,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c17f06c9835dd4288b3ddbddb5f0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pullDistance: 0
+  _moveDist: 0
+  _moveTime: 0
+--- !u!65 &4066781750867696184
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245093121705073198}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Center: {x: 0, y: 0.75, z: 0}
