@@ -15,6 +15,7 @@ public class PlayerInteract : MonoBehaviour
     PlayerMovement playerMovement;
 
     public Vector3 objPullStartPos = Vector3.zero;
+    public Vector3 objPushStartPos = Vector3.zero;
     public Vector3 playerPullStartPos = Vector3.zero;
 
     public bool isStopPull;
@@ -117,10 +118,12 @@ public class PlayerInteract : MonoBehaviour
             if (!playerObj.IsMessLarge(playerObj, interactableObj))
                 return;
 
-            playerMovement._playerAnimatior.PushAnimation();
+            objPushStartPos = interactableObj.transform.position;
+
             if (interactableObj.TryGetComponent<PullPushObject>(out PullPushObject obj))
             {
-                obj.PushObject(playerObj, interactableObj);
+                playerMovement._playerAnimatior.PushAnimation();
+                obj.PushObject(playerObj, interactableObj, objPushStartPos);
             }
         }
     }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PullPushObject : MonoBehaviour
@@ -12,6 +13,10 @@ public class PullPushObject : MonoBehaviour
     [SerializeField] private float _moveTime;
 
     Rigidbody rb;
+    Vector3 pushStartPos;
+
+    bool isMoving;
+    Tween pushTween;
 
     private void Awake()
     {
@@ -82,7 +87,7 @@ public class PullPushObject : MonoBehaviour
         interactiedObj.StopVelocity();
     }
 
-    public void PushObject(Object interactiveObj, Object interactiedObj)
+    public void PushObject(Object interactiveObj, Object interactiedObj, Vector3 startPos)
     {
         interactiedObj.isPushed = true;
         interactiveObj.GetComponent<PlayerMovement>().isPush = true;
@@ -131,10 +136,28 @@ public class PullPushObject : MonoBehaviour
 
         interactiveObj.transform.rotation = Quaternion.Euler(dir);
 
-        interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess);
+        pushTween = interactiedObj.transform.DOMove(movePos, _moveTime / interactiedObj.mess)
+            .OnUpdate(() =>
+            {
+                interactiveObj.StopVelocity();
 
-        StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
-        interactiedObj.isPushed = false;
+                pushStartPos = startPos;
+                isMoving = true;
+                
+            })
+            .OnComplete(() =>
+            {
+                StartCoroutine(UnableMoveDelay(interactiveObj, interactiedObj));
+                interactiedObj.isPushed = false;
+                
+                if (interactiveObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+                {
+                    interact.objPushStartPos = Vector3.zero;
+                    pushStartPos = Vector3.zero;
+                }
+
+                isMoving = false;
+            });
     }
 
     IEnumerator UnableMoveDelay(Object interactiveObj ,Object interactiedObj)
@@ -149,5 +172,31 @@ public class PullPushObject : MonoBehaviour
 
         interactiedObj.MoveUnAbleObject();
         interactiveObj.GetComponent<PlayerMovement>().isPush = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isMoving)
+        {
+            if (collision.gameObject.CompareTag("PushReset"))
+            {
+                pushTween.Kill();
+                gameObject.transform.position = pushStartPos;
+
+                Object playerObj = GameObject.Find("Player").GetComponent<Object>();
+                Object thisObj = GetComponent<Object>();
+
+                StartCoroutine(UnableMoveDelay(playerObj, thisObj));
+                thisObj.isPushed = false;
+
+                if (playerObj.TryGetComponent<PlayerInteract>(out PlayerInteract interact))
+                {
+                    interact.objPushStartPos = Vector3.zero;
+                    pushStartPos = Vector3.zero;
+                }
+
+                isMoving = false;
+            }
+        }
     }
 }
