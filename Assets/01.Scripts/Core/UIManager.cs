@@ -15,46 +15,100 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float fadeTime;
     [SerializeField] private Button backButton;
     [SerializeField] private Button newGameButton;
-    [SerializeField] private Button exitButton;
+    [SerializeField] private Button exitButton1;
+    [SerializeField] private Button exitButton2;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button tutorialButton;
+    [SerializeField] private Button explainButton;
+    [SerializeField] private Button restartButton;
 
-    private bool isPanelOpened = true;
+    private bool isPanelOpened = false;
     private bool isFaded = false;
 
     private Button selectedButton;
 
     private void Awake()
     {
-        selectedButton = backButton;
+        selectedButton = restartButton;
     }
-
+    private void Start()
+    {
+        //selectedButton.Select();
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenPanel();
+            selectedButton.Select();
         }
-        selectedButton.Select();
 
-        if(selectedButton == backButton && Input.GetKeyDown(KeyCode.DownArrow))
+
+        if (selectedButton == backButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedButton = newGameButton;
         }
-        else if(selectedButton == newGameButton && Input.GetKeyDown(KeyCode.DownArrow))
+        else if (selectedButton == newGameButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            selectedButton = exitButton;
+            selectedButton = exitButton2;
         }
         if (selectedButton == newGameButton && Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButton = backButton;
         }
-        if (selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
+        if (selectedButton == exitButton2 && Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButton = newGameButton;
+        }
+ 
+        if (selectedButton == startButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = tutorialButton;
+        }
+        else if (selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = explainButton;
+        }
+        else if (selectedButton == explainButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = exitButton1;
+        }
+
+        if (selectedButton == explainButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = tutorialButton;
+            if (startButton == null)
+            {
+                selectedButton = restartButton;
+            }
+        }
+        else if (selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = startButton;
+        }
+
+        if (selectedButton == restartButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = explainButton;
+            if (explainButton == null)
+            {
+                selectedButton = exitButton1;
+            }
+        }
+
+        if (selectedButton == exitButton1 && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = explainButton;
+            if (explainButton == null)
+            {
+                selectedButton = restartButton;
+            }
         }
     }
 
     public void OpenPanel()
     {
+        selectedButton = backButton;
         if(isPanelOpened == false)
         {
             Time.timeScale = 0f;
@@ -75,43 +129,10 @@ public class UIManager : MonoBehaviour
         if (isFaded == false)
         {
             isFaded = true;
-            fadeImage.DOFade(1, fadeTime).OnComplete(()=> isFaded = false);
+            fadeImage.DOFade(1, fadeTime).OnComplete(()=> isFaded = false).SetUpdate(true);
+            Time.timeScale = 1f;
         }
         Invoke("ChangeMain", fadeTime);
-    }
-
-    public void ChangeMain()
-    {
-        SceneManager.LoadScene("SampleSceneJiheon");
-    }
-
-    public void ChangeIntro()
-    {
-        SceneManager.LoadScene("IntroScene");
-    }
-
-    public void ChangeOption()
-    {
-        SceneManager.LoadScene("InGameOption");
-    }
-
-    public void OnClickExit()
-    {
-        exitGamePanel.SetActive(true);
-        var btn = exitGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
-        btn.Select();
-    }
-
-    public void OnClickOption()
-    {
-        _fadeImage.SetActive(true);
-        if (isFaded == false)
-        {
-            isFaded = true;
-            fadeImage.DOFade(1, fadeTime);
-            isFaded = false;
-        }
-        Invoke("ChangeOption", fadeTime);
     }
 
     public void RealNewGame()
@@ -120,15 +141,20 @@ public class UIManager : MonoBehaviour
         if (isFaded == false)
         {
             isFaded = true;
-            fadeImage.DOFade(1, fadeTime).OnComplete(() => isFaded = false);
+            fadeImage.DOFade(1, fadeTime).OnComplete(() => isFaded = false).SetUpdate(true);
+            Time.timeScale = 1f;
         }
         Invoke("ChangeIntro", fadeTime);
     }
-    
-    public void RealExitGame()
+    public void OnClickExit()
     {
-        Application.Quit();
+        exitGamePanel.SetActive(true);
+        Debug.Log("d");
+        var btn = exitGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
+        btn.Select();
     }
+
+
 
     public void OnClickBack()
     {
@@ -150,5 +176,30 @@ public class UIManager : MonoBehaviour
         newGamePanel.SetActive(true);
         var btn = newGamePanel.transform.Find("Image/TMP/Button/YesButton").GetComponent<Button>();
         btn.Select();
+    }
+
+    public void ChangeMain()
+    {
+        SceneManager.LoadScene("Stage 1");
+    }
+
+    public void ChangeIntro()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
+
+    public void ChangeTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+
+    public void ChangeExplain()
+    {
+        SceneManager.LoadScene("UIMovePanel");
+    }
+
+    public void RealExitGame()
+    {
+        Application.Quit();
     }
 }

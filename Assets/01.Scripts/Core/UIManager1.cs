@@ -13,6 +13,7 @@ public class UIManager1 : MonoBehaviour
     [SerializeField] private float fadeTime;
     [SerializeField] private Button startButton;
     [SerializeField] private Button tutorialButton;
+    [SerializeField] private Button explainButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button restartButton;
 
@@ -36,30 +37,48 @@ public class UIManager1 : MonoBehaviour
     {
         selectedButton.Select();
 
-        if(selectedButton == startButton && Input.GetKeyDown(KeyCode.DownArrow))
+        if (selectedButton == startButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedButton = tutorialButton;
         }
-        else if(selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.DownArrow))
+        else if (selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedButton = explainButton;
+        }
+        else if (selectedButton == explainButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedButton = exitButton;
         }
-        if (selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
+
+        if (selectedButton == explainButton && Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButton = tutorialButton;
-            if(startButton == null)
+            if (startButton == null)
             {
                 selectedButton = restartButton;
             }
         }
-        else if(selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.UpArrow))
+        else if (selectedButton == tutorialButton && Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButton = startButton;
         }
 
-        if(selectedButton == restartButton && Input.GetKeyDown(KeyCode.DownArrow))
+        if (selectedButton == restartButton && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            selectedButton = exitButton;
+            selectedButton = explainButton;
+            if(explainButton == null)
+            {
+                selectedButton = exitButton;
+            }
+        }
+
+        if(selectedButton == exitButton && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedButton = explainButton;
+            if (explainButton == null)
+            {
+                selectedButton = restartButton;
+            }
         }
     }
 
@@ -110,6 +129,11 @@ public class UIManager1 : MonoBehaviour
     public void ChangeTutorial()
     {
         SceneManager.LoadScene("Tutorial");
+    }    
+    
+    public void ChangeExplain()
+    {
+        SceneManager.LoadScene("UIMovePanel");
     }
 
     public void RealExitGame()

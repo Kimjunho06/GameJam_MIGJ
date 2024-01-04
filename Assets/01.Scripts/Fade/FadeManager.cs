@@ -17,7 +17,7 @@ public class FadeManager : MonoBehaviour
         FadeIn();
     }
 
-    private void FadeIn()
+    public void FadeIn()
     {
         _fadeImage.SetActive(true);
         if (isFaded == false)

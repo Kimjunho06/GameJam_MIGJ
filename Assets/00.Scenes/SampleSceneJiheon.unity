@@ -402,7 +402,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74560264}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.37947434, y: 0.000000020168617, z: -0.000000008272216, w: 0.92520225}
+  m_LocalRotation: {x: 0.37947434, y: 0.000000015957003, z: -0.000000006544811, w: 0.92520225}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -997,7 +997,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4178568, y: 0.000000027075796, z: -0.000000012453103, w: 0.90851295}
+  m_LocalRotation: {x: 0.4178568, y: 0.0000000270758, z: -0.000000012453105, w: 0.90851295}
   m_LocalPosition: {x: 0, y: 3.5, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1922,6 +1922,8 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
 --- !u!114 &508763542
@@ -1979,6 +1981,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pullDistance: 0
+  _moveDist: 0
+  _moveTime: 0
 --- !u!1 &526045659
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,7 +3740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114900827}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4178568, y: 0.000000027075796, z: -0.000000012453103, w: 0.90851295}
+  m_LocalRotation: {x: 0.4178568, y: 0.0000000270758, z: -0.000000012453105, w: 0.90851295}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4251,7 +4255,12 @@ MonoBehaviour:
   fadeTime: 1
   backButton: {fileID: 1710076024}
   newGameButton: {fileID: 1879770609}
-  exitButton: {fileID: 440439098}
+  exitButton1: {fileID: 0}
+  exitButton2: {fileID: 0}
+  startButton: {fileID: 0}
+  tutorialButton: {fileID: 0}
+  explainButton: {fileID: 0}
+  restartButton: {fileID: 0}
 --- !u!4 &1252578964
 Transform:
   m_ObjectHideFlags: 0
@@ -4758,8 +4767,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393006681}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.33081928, y: -0.00000002296338, z: 0.000000008049992, w: 0.9436942}
-  m_LocalPosition: {x: 0, y: -0.122699976, z: -0.023514986}
+  m_LocalRotation: {x: 0.3409711, y: -0.000000013293712, z: 0.0000000048217195, w: 0.94007385}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7752,6 +7761,8 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -9.8
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
   _moveSpeed: 8
@@ -7786,6 +7797,8 @@ MonoBehaviour:
     m_Bits: 64
   _gravity: -10
   _pullOffset: {x: 0, y: 0, z: 0}
+  _arrowOffset: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
   isPushed: 0
   _objectType: 0
 --- !u!114 &2126885641
@@ -7841,9 +7854,11 @@ MonoBehaviour:
   _radius: 5
   _hangCheckDist: 5
   _findObjOffset: {x: 0, y: 0, z: 0}
-  _arrowOffset: {x: 0, y: 0, z: 0}
-  pullStartPos: {x: 0, y: 0, z: 0}
+  objPullStartPos: {x: 0, y: 0, z: 0}
+  objPushStartPos: {x: 0, y: 0, z: 0}
+  playerPullStartPos: {x: 0, y: 0, z: 0}
   isStopPull: 0
+  isPulling: 0
 --- !u!1 &2134920520
 GameObject:
   m_ObjectHideFlags: 0

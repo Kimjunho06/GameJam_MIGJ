@@ -2,18 +2,23 @@ using DG.Tweening.Core.Easing;
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField] private PoolingListSO _poolingList;
     [SerializeField] private Transform _poolingTrm;
+    [SerializeField] private GameObject _fadeImage;
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private float fadeTime;
 
     public GameObject _pushDirectionArrow;
-
     public Camera _mainCam;
+    FadeManager fadeManager;
 
     private void Awake()
     {
+        fadeManager = GetComponent<FadeManager>();
         PoolManager.Instance = new PoolManager(_poolingTrm);
         foreach (PoolingPair pair in _poolingList.list)
         {
@@ -29,7 +34,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        fadeManager.FadeIn();
     }
 }
