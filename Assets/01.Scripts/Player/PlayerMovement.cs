@@ -85,6 +85,11 @@ public class PlayerMovement : Object
 
     private void PlayerMove()
     {
+        if (isPush)
+        {
+            return;
+        }
+
         if (isPull)
         {
             if (_inputReader.InputPos.y > 0 || _inputReader.InputPos.x != 0)
