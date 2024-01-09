@@ -2374,7 +2374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218811341}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08303959, y: 9.073712e-31, z: 7.5608866e-32, w: 0.99654627}
+  m_LocalRotation: {x: -0.08303959, y: 0, z: 0, w: 0.99654627}
   m_LocalPosition: {x: -9, y: 1.5, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3969,7 +3969,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509796286}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.041844726, y: 1.9635415e-31, z: -7.349641e-33, w: 0.99912417}
+  m_LocalRotation: {x: -0.041844726, y: -0, z: -0, w: 0.99912417}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7105,7 +7105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960265187}
   serializedVersion: 2
-  m_LocalRotation: {x: -1e-45, y: 1e-45, z: -0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: 1e-45, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12987,7 +12987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658744981}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08303958, y: 9.021172e-31, z: 1.2557618e-32, w: 0.99654627}
+  m_LocalRotation: {x: -0.08303958, y: -1e-45, z: -0, w: 0.99654627}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15146,9 +15146,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolingList: {fileID: 11400000, guid: cd3872863f12ee645872323784ad80b8, type: 2}
   _poolingTrm: {fileID: 2094219423}
-  _fadeImage: {fileID: 0}
-  fadeImage: {fileID: 0}
-  fadeTime: 0
   _pushDirectionArrow: {fileID: 3057477717547484796}
   _mainCam: {fileID: 218811345}
 --- !u!4 &1919388115
@@ -16290,7 +16287,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2037468928}
   - component: {fileID: 2037468927}
-  - component: {fileID: 2037468926}
   m_Layer: 0
   m_Name: PlayerCam (1)
   m_TagString: Untagged
@@ -16298,36 +16294,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2037468926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037468925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CollideAgainst:
-    serializedVersion: 2
-    m_Bits: 1
-  m_IgnoreTag: 
-  m_TransparentLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_MinimumDistanceFromTarget: 0.1
-  m_AvoidObstacles: 1
-  m_DistanceLimit: 0
-  m_MinimumOcclusionTime: 0
-  m_CameraRadius: 0.1
-  m_Strategy: 1
-  m_MaximumEffort: 4
-  m_SmoothingTime: 0
-  m_Damping: 0
-  m_DampingWhenOccluded: 0
-  m_OptimalTargetDistance: 0
 --- !u!114 &2037468927
 MonoBehaviour:
   m_ObjectHideFlags: 0
