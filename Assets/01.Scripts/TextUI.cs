@@ -53,8 +53,8 @@ public class TextUI : MonoBehaviour
             if (currentIndex < boxes.Count)
             {
                 // 다음 박스로 이동
-                Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                playerTransform.position = boxes[currentIndex].boxObject.transform.position;
+                //Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+                //playerTransform.position = boxes[currentIndex].boxObject.transform.position;
             }
             else
             {
