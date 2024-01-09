@@ -128,7 +128,7 @@ public class UIManager1 : MonoBehaviour
 
     public void ChangeTutorial()
     {
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("SettingScene");
     }    
     
     public void ChangeExplain()
