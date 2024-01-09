@@ -2378,8 +2378,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104073625}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.37871388, y: 0.000000031849485, z: -0.00000001303259, w: 0.9255138}
-  m_LocalPosition: {x: 21.34, y: 4.39, z: 18.759863}
+  m_LocalRotation: {x: 0.27279037, y: -0.00000004379724, z: 0.000000012418453, w: 0.9620735}
+  m_LocalPosition: {x: 21.34, y: 4.5, z: 17.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6175,7 +6175,7 @@ PrefabInstance:
     - target: {fileID: 5806394091792394605, guid: 9a06e486f330db5478ce1546f7040504,
         type: 3}
       propertyPath: mess
-      value: 300
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 5806394091792394605, guid: 9a06e486f330db5478ce1546f7040504,
         type: 3}
@@ -8050,7 +8050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342804288}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31384838, y: -0.000000023103997, z: 0.000000007637025, w: 0.94947314}
+  m_LocalRotation: {x: 0.20361836, y: -1.2725278e-15, z: -3.891842e-16, w: 0.97905034}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10229,7 +10229,6 @@ GameObject:
   m_Component:
   - component: {fileID: 428080399}
   - component: {fileID: 428080398}
-  - component: {fileID: 428080400}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -10360,36 +10359,6 @@ Transform:
   - {fileID: 342804290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &428080400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428080397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CollideAgainst:
-    serializedVersion: 2
-    m_Bits: 1
-  m_IgnoreTag: 
-  m_TransparentLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_MinimumDistanceFromTarget: 0.1
-  m_AvoidObstacles: 1
-  m_DistanceLimit: 0
-  m_MinimumOcclusionTime: 0
-  m_CameraRadius: 0.1
-  m_Strategy: 1
-  m_MaximumEffort: 4
-  m_SmoothingTime: 0
-  m_Damping: 0
-  m_DampingWhenOccluded: 0
-  m_OptimalTargetDistance: 0
 --- !u!1 &433155199 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3441850889719896187, guid: f44f7f4526efaa94bb632ffce207ad02,
@@ -16885,7 +16854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650736431}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.37871382, y: 0.00000001592474, z: -0.0000000065162924, w: 0.92551386}
+  m_LocalRotation: {x: 0.2727903, y: -0.000000016553802, z: 0.000000004693734, w: 0.9620735}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -40487,9 +40456,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolingList: {fileID: 11400000, guid: cd3872863f12ee645872323784ad80b8, type: 2}
   _poolingTrm: {fileID: 1317906849}
-  _fadeImage: {fileID: 0}
-  fadeImage: {fileID: 0}
-  fadeTime: 0
   _pushDirectionArrow: {fileID: 768262743824099430}
   _mainCam: {fileID: 104073629}
 --- !u!4 &1697788947
@@ -47822,7 +47788,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030696432}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34367177, y: 0.000000022851337, z: -0.000000008362734, w: 0.9390899}
+  m_LocalRotation: {x: 0.23579985, y: 1e-45, z: -0, w: 0.9718017}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

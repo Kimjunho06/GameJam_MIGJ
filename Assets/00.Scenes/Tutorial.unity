@@ -2517,9 +2517,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolingList: {fileID: 11400000, guid: cd3872863f12ee645872323784ad80b8, type: 2}
   _poolingTrm: {fileID: 228830728}
-  _fadeImage: {fileID: 1337234634}
-  fadeImage: {fileID: 1337234636}
-  fadeTime: 1
   _pushDirectionArrow: {fileID: 6676837211657726818}
   _mainCam: {fileID: 0}
 --- !u!4 &572480237
@@ -3120,7 +3117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 741846684}
   - component: {fileID: 741846683}
-  - component: {fileID: 741846682}
   m_Layer: 0
   m_Name: PlayerCam (1)
   m_TagString: Untagged
@@ -3128,36 +3124,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &741846682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 741846681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CollideAgainst:
-    serializedVersion: 2
-    m_Bits: 1
-  m_IgnoreTag: 
-  m_TransparentLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_MinimumDistanceFromTarget: 0.1
-  m_AvoidObstacles: 1
-  m_DistanceLimit: 0
-  m_MinimumOcclusionTime: 0
-  m_CameraRadius: 0.1
-  m_Strategy: 1
-  m_MaximumEffort: 4
-  m_SmoothingTime: 0
-  m_Damping: 0
-  m_DampingWhenOccluded: 0
-  m_OptimalTargetDistance: 0
 --- !u!114 &741846683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5942,7 +5908,7 @@ GameObject:
   - component: {fileID: 1103321692}
   - component: {fileID: 1103321695}
   - component: {fileID: 1103321694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

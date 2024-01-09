@@ -12,9 +12,22 @@ public class StageController : MonoBehaviour
 
     public List<CleanAreaH> cleanAreaH;
 
+    private void Start()
+    {
+        if (curSceneName == "EndingScene")
+        {
+            GameManager.Instance.CursorOn();
+        }
+    }
+
     private void Update()
     {
-        StageClear();
+        if (curSceneName == "EndingScene")
+        {
+            GameManager.Instance.CursorOn();
+            return;
+        }
+            StageClear();
         StageClearH();
 
         if (Input.GetKeyDown(KeyCode.B))

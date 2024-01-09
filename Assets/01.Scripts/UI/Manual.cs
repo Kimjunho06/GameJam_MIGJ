@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manual : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class Manual : MonoBehaviour
                 // Main 오브젝트로 이동
                 SwitchToMainObject();
             }
+            else
+                SceneManager.LoadScene("IntroScene");
         }
+
     }
 
     void SwitchToMainObject()
