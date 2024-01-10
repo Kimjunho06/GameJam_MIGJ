@@ -10,6 +10,7 @@ public class TextUI : MonoBehaviour
     {
         public GameObject boxObject;
         public string displayText;
+        public bool hasBeenDisplayed; // New property to track if the box has been displayed
     }
 
     public List<BoxInfo> boxes; // 박스 정보를 담을 List
@@ -38,28 +39,33 @@ public class TextUI : MonoBehaviour
 
         if (currentIndex < boxes.Count)
         {
-            // 현재 박스에 해당하는 텍스트를 표시
-            displayText.text = boxes[currentIndex].displayText;
-            displayText.gameObject.SetActive(true);
-
-            // 일정 시간 동안 대기
-            yield return new WaitForSeconds(displayTime);
-
-            // 텍스트를 숨기고 다음 박스로 이동
-            displayText.gameObject.SetActive(false);
-            currentIndex++;
-
-            // 다음 박스가 있으면 계속 진행, 없으면 초기화
-            if (currentIndex < boxes.Count)
+            // Check if the current box has been displayed
+            if (!boxes[currentIndex].hasBeenDisplayed)
             {
-                // 다음 박스로 이동
-                //Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                //playerTransform.position = boxes[currentIndex].boxObject.transform.position;
-            }
-            else
-            {
-                // 모든 박스를 다 돌았을 때 초기화 또는 다른 작업 수행
-                currentIndex = 0;
+                // 현재 박스에 해당하는 텍스트를 표시
+                displayText.text = boxes[currentIndex].displayText;
+                displayText.gameObject.SetActive(true);
+
+                // 일정 시간 동안 대기
+                yield return new WaitForSeconds(displayTime);
+
+                // 텍스트를 숨기고 다음 박스로 이동
+                displayText.gameObject.SetActive(false);
+                boxes[currentIndex].hasBeenDisplayed = true; // Mark the box as displayed
+                currentIndex++;
+
+                // 다음 박스가 있으면 계속 진행, 없으면 초기화
+                if (currentIndex < boxes.Count)
+                {
+                    // 다음 박스로 이동
+                    //Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+                    //playerTransform.position = boxes[currentIndex].boxObject.transform.position;
+                }
+                else
+                {
+                    // 모든 박스를 다 돌았을 때 초기화 또는 다른 작업 수행
+                    currentIndex = 0;
+                }
             }
         }
 
