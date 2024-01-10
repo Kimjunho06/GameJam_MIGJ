@@ -11821,7 +11821,7 @@ Camera:
   far clip plane: 1000
   field of view: 32
   orthographic: 1
-  orthographic size: 16.2
+  orthographic size: 8.9
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -11846,7 +11846,7 @@ Transform:
   m_GameObject: {fileID: 967141613}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -33.85, y: 20, z: 16.2}
+  m_LocalPosition: {x: -37.42, y: 20, z: 16.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13692,11 +13692,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxes:
   - boxObject: {fileID: 1114424257}
-    displayText: 
+    displayText: "\uC67C\uCABD \uC0C1\uB2E8\uC5D0\uB294 \uBBF8\uB2C8\uB9F5\uC774
+      \uC788\uC2B5\uB2C8\uB2E4"
     hasBeenDisplayed: 0
   - boxObject: {fileID: 1114424257}
-    displayText: "Q\uB098 E\uB97C \uB20C\uB7EC\uC11C \uC7A5\uC560\uBB3C\uC744 \uBC00\uAC70\uB098
-      \uB2F9\uAE30\uC138\uC694!"
+    displayText: "\uBE68\uAC15\uC0C9\uC740 \uCCAD\uC18C\uD574\uC57C\uD560 \uC624\uBE0C\uC81D\uD2B8,"
+    hasBeenDisplayed: 0
+  - boxObject: {fileID: 1114424257}
+    displayText: "\uB4DC\uB7FC\uD1B5\uC740 \uB193\uC744 \uC704\uCE58\uB97C \uD45C\uC2DC\uD569\uB2C8\uB2E4"
     hasBeenDisplayed: 0
   displayText: {fileID: 887111965}
   displayTime: 1
@@ -15255,7 +15258,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1791818211}
@@ -24860,7 +24863,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 594116330}
