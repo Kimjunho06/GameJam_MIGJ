@@ -3,7 +3,7 @@
 ![Unity](https://img.shields.io/badge/Unity-2022.3-blue.svg)
 ![C#](https://img.shields.io/badge/C%23-7.0-green.svg)
 
-- 장르 : 플랫
+- 장르 : 퍼즐
 
 - 시점 : 3D 3인칭
 
